@@ -4,512 +4,1907 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#14131F">
-<title>Mixtape — เพลงของฉัน</title>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<title>Noattepza Archive — เพลงของฉัน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#14131F;
-    --surface:#1E1B2E;
-    --surface-2:#26223A;
-    --line:#3A3552;
+    --bg:#0A0A0B;
+    --bg-2:#101011;
+    --surface:#161617;
+    --surface-2:#1E1E20;
+    --surface-3:#27272A;
+    --line:#38383C;
+    --line-soft:#28282B;
     --amber:#E8A33D;
-    --teal:#4FD1C5;
+    --amber-deep:#C97D22;
+    --teal:#ff0000;
     --cream:#F2EFE9;
-    --dim:#8A85A3;
+    --dim:#96969C;
+    --dim-2:#5A5A60;
     --danger:#E8704F;
+    --display:'Itim','Inter',Georgia,serif;
+    --body:'Itim','Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --mono:'JetBrains Mono','SF Mono',SFMono-Regular,Menlo,Consolas,monospace;
+    --sidebar-w:216px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
     background:
-      radial-gradient(ellipse at top, #1A1830 0%, var(--bg) 55%);
+      radial-gradient(ellipse 900px 500px at 20% -5%, #1C1C1E 0%, transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 0%, #17171A 0%, transparent 55%),
+      var(--bg);
     color:var(--cream);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-family:var(--body);
     min-height:100vh;
-    display:flex;
-    justify-content:center;
-    padding:24px 16px 48px;
   }
-  .app{
-    width:100%;
-    max-width:440px;
+  ::selection{background:var(--amber);color:#14131F;}
+  button{font-family:inherit;}
+  a{color:inherit;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px;border:2px solid transparent;background-clip:padding-box;}
+  ::-webkit-scrollbar-thumb:hover{background:var(--line);}
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(ellipse 700px 400px at 50% 105%, rgba(0,0,0,.35), transparent 60%);
   }
-  .eyebrow{
-    font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:12px;
-    letter-spacing:.18em;
-    color:var(--dim);
-    text-transform:uppercase;
-    margin:0 0 4px 2px;
-  }
-  h1{
-    font-size:26px;
-    margin:0 0 20px 2px;
-    font-weight:800;
-    letter-spacing:-.01em;
-  }
-  .accent{color:var(--amber);}
 
-  /* Cassette */
-  .cassette{
-    background:linear-gradient(180deg,var(--surface) 0%, #191629 100%);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:22px 20px 18px;
-    box-shadow:0 20px 40px -20px rgba(0,0,0,.6);
+  /* ---------- Layout ---------- */
+  .shell{display:flex;min-height:100vh;}
+  .sidebar{
+    width:var(--sidebar-w);
+    flex:none;
+    position:fixed;top:0;left:0;bottom:0;
+    background:linear-gradient(180deg,var(--bg-2) 0%, #15132199 100%);
+    border-right:1px solid var(--line-soft);
+    padding:26px 14px 18px;
+    display:flex;flex-direction:column;
+    z-index:40;
   }
-  .reels{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:6px 18px 14px;
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    padding:0 8px 24px;
   }
-  .reel-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;}
-  .reel{
-    width:64px;height:64px;border-radius:50%;
-    border:5px solid var(--reel-color,var(--amber));
-    background:var(--bg);
+  .brand-mark{
+    width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(155deg,var(--amber),var(--amber-deep));
     display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px -6px rgba(232,163,61,.55);
+  }
+  .brand-mark svg{width:18px;height:18px;color:#14131F;}
+  .brand-text{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.01em;}
+  .brand-text .sub{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase;font-weight:400;margin-top:2px;}
+
+  .nav-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;}
+  .nav-item{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 12px;border-radius:11px;
+    color:var(--dim);cursor:pointer;font-size:14px;font-weight:500;
+    border:1px solid transparent;
+    transition:background .15s,color .15s,border-color .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .nav-item svg{width:18px;height:18px;flex:none;}
+  .nav-item:hover{background:var(--surface);color:var(--cream);}
+  .nav-item.active{background:var(--surface-2);color:var(--amber);border-color:var(--line);}
+  .nav-item.active svg{color:var(--amber);}
+  .nav-spacer{flex:1;}
+  .sidebar-foot{
+    font-family:var(--mono);font-size:10px;color:var(--dim-2);
+    padding:10px 10px 2px;letter-spacing:.04em;line-height:1.6;
+  }
+
+  .main{
+    margin-left:var(--sidebar-w);
+    flex:1;min-width:0;
+    padding:34px 36px 120px;
+    max-width:1080px;
+  }
+
+  .view-head{margin-bottom:26px;}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+    color:var(--dim);text-transform:uppercase;margin:0 0 6px;
+  }
+  h1.page-title{
+    font-family:var(--display);font-size:32px;font-weight:700;
+    letter-spacing:-.01em;margin:0;
+  }
+  .page-title .accent{color:var(--amber);}
+  .page-sub{color:var(--dim);font-size:14px;margin:8px 0 0;max-width:520px;line-height:1.6;}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    font-size:13.5px;font-weight:600;border-radius:10px;
+    padding:10px 16px;cursor:pointer;border:1px solid var(--line);
+    background:var(--surface);color:var(--cream);
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .12s ease, border-color .15s, background .15s;
+  }
+  .btn svg{width:15px;height:15px;}
+  .btn:hover{border-color:var(--amber);}
+  .btn:active{transform:scale(.97);}
+  .btn-primary{
+    background:linear-gradient(155deg,var(--amber),var(--amber-deep));
+    color:#14131F;border:none;
+  }
+  .btn-primary:hover{filter:brightness(1.06);}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;filter:none;}
+  .btn-ghost{background:transparent;border:1px dashed var(--line);color:var(--dim);}
+  .btn-ghost:hover{color:var(--amber);border-color:var(--amber);border-style:dashed;}
+  .btn-sm{padding:7px 12px;font-size:12.5px;border-radius:8px;}
+
+  /* ---------- Home: Playlist grid (tape-case cards) ---------- */
+  .playlist-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:16px;
+  }
+  .case-card{
+    background:linear-gradient(165deg,var(--surface) 0%, var(--bg-2) 100%);
+    border:1px solid var(--line-soft);
+    border-radius:16px;padding:16px;cursor:pointer;
+    display:flex;flex-direction:column;gap:14px;
+    position:relative;overflow:hidden;
+    box-shadow:0 14px 28px -20px rgba(0,0,0,.6);
+    transition:border-color .15s, transform .15s, box-shadow .2s;
+  }
+  .case-card:hover{border-color:var(--amber);transform:translateY(-3px);
+    box-shadow:0 18px 34px -18px rgba(232,163,61,.28);}
+  .case-card .spine{
+    height:64px;border-radius:10px;
+    background:radial-gradient(ellipse at 50% 0%, #1E1E20, var(--bg) 75%);
+    border:1px solid var(--line);
+    box-shadow:inset 0 2px 6px rgba(0,0,0,.5);
+    display:flex;align-items:center;justify-content:space-evenly;
+  }
+  .mini-reel{
+    width:26px;height:26px;border-radius:50%;
+    border:3px solid var(--r,var(--amber));
+    background:radial-gradient(circle at 32% 28%, #242426, var(--bg) 75%);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.4);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mini-reel::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--r,var(--amber));}
+  .case-card .spine .mini-reel:nth-child(2){--r:var(--teal);}
+  .case-name{font-family:var(--display);font-weight:600;font-size:16px;line-height:1.3;}
+  .case-meta{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.03em;}
+  .case-card{position:relative;}
+  .case-actions{
+    position:absolute;top:10px;right:10px;display:flex;gap:6px;
+    opacity:0;transition:opacity .12s;z-index:2;
+  }
+  .case-card:hover .case-actions{opacity:1;}
+  .case-actions button{
+    background:var(--bg-2);border:1px solid var(--line);
+    color:var(--dim);padding:6px;border-radius:8px;cursor:pointer;display:flex;
+    transition:color .12s,border-color .12s;
+  }
+  .case-actions button:hover{color:var(--amber);border-color:var(--amber);}
+  .case-actions button.danger:hover{color:var(--danger);border-color:var(--danger);}
+  .case-actions svg{width:13px;height:13px;display:block;}
+
+  .create-tile{
+    border:1.5px dashed var(--line);border-radius:16px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    color:var(--dim);cursor:pointer;padding:16px;min-height:132px;
+    transition:border-color .15s,color .15s;
+  }
+  .create-tile:hover{border-color:var(--amber);color:var(--amber);}
+  .create-tile svg{width:22px;height:22px;}
+  .create-tile span{font-size:13px;font-weight:600;}
+
+  .empty-panel{
+    border:1px solid var(--line-soft);border-radius:16px;
+    padding:40px 24px;text-align:center;color:var(--dim);
+  }
+  .empty-panel svg{width:34px;height:34px;color:var(--dim-2);margin-bottom:10px;}
+  .empty-panel p{margin:4px 0 16px;font-size:13.5px;line-height:1.6;}
+
+  /* ---------- All songs / list rows ---------- */
+  .song-row{
+    display:flex;align-items:center;gap:12px;
+    background:var(--surface);border:1px solid var(--line-soft);
+    border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;
+  }
+  .song-row:hover{border-color:var(--line);}
+  .song-row.playing{border-color:var(--amber);background:var(--surface-2);}
+  .song-num{font-family:var(--mono);font-size:12px;color:var(--dim);width:22px;text-align:center;flex:none;}
+  .song-row.playing .song-num{color:var(--amber);}
+  .song-play-ico{width:16px;height:16px;color:var(--dim);flex:none;}
+  .song-info{flex:1;min-width:0;}
+  .song-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .song-artist{font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+  .song-dur{font-family:var(--mono);font-size:11px;color:var(--dim-2);margin-top:2px;}
+  .row-actions{display:flex;gap:4px;flex:none;}
+  .icon-btn{
+    background:none;border:none;color:var(--dim);cursor:pointer;
+    padding:7px;border-radius:8px;display:flex;
+  }
+  .icon-btn:hover{color:var(--amber);background:var(--surface-3);}
+  .icon-btn.danger:hover{color:var(--danger);}
+  .icon-btn svg{width:16px;height:16px;}
+
+  /* ---------- Upload page ---------- */
+  .dropzone{
+    border:1.5px dashed var(--line);border-radius:18px;
+    padding:46px 24px;text-align:center;cursor:pointer;
+    transition:border-color .15s,background .15s;
+    background:var(--surface);
+  }
+  .dropzone.drag{border-color:var(--amber);background:var(--surface-2);}
+  .dropzone svg{width:32px;height:32px;color:var(--amber);margin-bottom:12px;}
+  .dropzone h3{font-family:var(--display);font-size:18px;margin:0 0 6px;}
+  .dropzone p{color:var(--dim);font-size:13px;margin:0;}
+  .dropzone .fmt{font-family:var(--mono);font-size:11px;color:var(--dim-2);margin-top:10px;}
+  input[type=file]{display:none;}
+
+  .upload-note{
+    margin-top:16px;padding:13px 15px;border-radius:12px;
+    background:var(--surface);border:1px solid var(--line-soft);
+    font-size:12.5px;color:var(--dim);line-height:1.6;
+    display:flex;gap:10px;
+  }
+  .upload-note svg{width:16px;height:16px;flex:none;color:var(--teal);margin-top:1px;}
+
+  .section-divider{
+    display:flex;align-items:center;gap:12px;margin:28px 0 18px;
+    color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  }
+  .section-divider::before,.section-divider::after{content:"";flex:1;height:1px;background:var(--line-soft);}
+
+  .tiktok-box{
+    background:var(--surface);border:1px solid var(--line-soft);border-radius:18px;padding:22px;
+  }
+  .tiktok-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .tiktok-head .tk-icon{
+    width:34px;height:34px;border-radius:10px;flex:none;
+    background:linear-gradient(155deg,#D9502E22,#E8A33D22);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .tiktok-head .tk-icon svg{width:17px;height:17px;color:var(--teal);}
+  .tiktok-head h3{font-family:var(--display);font-size:16px;margin:0;}
+  .tiktok-head p{margin:2px 0 0;font-size:12px;color:var(--dim);}
+  .tiktok-input-row{display:flex;gap:8px;margin-bottom:6px;}
+  .tiktok-input-row input[type=text]{
+    flex:1;background:var(--bg);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;color:var(--cream);font-size:14px;font-family:var(--body);
+  }
+  .tiktok-input-row input[type=text]:focus{outline:none;border-color:var(--teal);}
+  .tiktok-status{font-size:12.5px;color:var(--dim);min-height:18px;margin-top:6px;}
+  .tiktok-status.error{color:var(--danger);}
+  .tiktok-preview{
+    display:none;margin-top:16px;padding:14px;border-radius:14px;
+    background:var(--bg-2);border:1px solid var(--line-soft);
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .tiktok-preview img{width:56px;height:56px;border-radius:10px;object-fit:cover;flex:none;background:var(--surface-3);}
+  .tiktok-preview .tp-info{flex:1;min-width:0;}
+  .tiktok-preview .tp-title{font-size:13.5px;font-weight:600;line-height:1.4;margin-bottom:2px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .tiktok-preview .tp-author{font-family:var(--mono);font-size:11px;color:var(--dim);}
+  .tiktok-preview .tp-actions{margin-top:10px;display:flex;gap:8px;}
+
+  .queue-list{margin-top:22px;}
+  .queue-list h2{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:0 0 10px;}
+
+  /* ---------- Playlist detail: cassette player ---------- */
+  .detail-back{
+    display:inline-flex;align-items:center;gap:6px;color:var(--dim);
+    font-size:12.5px;cursor:pointer;margin-bottom:14px;font-family:var(--mono);
+  }
+  .detail-back:hover{color:var(--amber);}
+  .detail-back svg{width:14px;height:14px;}
+
+  .cassette{
     position:relative;
-    animation:spin 2.2s linear infinite paused;
+    background-image:
+      radial-gradient(circle at 40% 40%, #6E6E74 0%, #1A1A1C 68%, transparent 72%),
+      radial-gradient(circle at 40% 40%, #6E6E74 0%, #1A1A1C 68%, transparent 72%),
+      radial-gradient(circle at 40% 40%, #6E6E74 0%, #1A1A1C 68%, transparent 72%),
+      radial-gradient(circle at 40% 40%, #6E6E74 0%, #1A1A1C 68%, transparent 72%),
+      linear-gradient(165deg,var(--surface) 0%, var(--bg-2) 58%, #171429 100%);
+    background-repeat:no-repeat;
+    background-size:8px 8px,8px 8px,8px 8px,8px 8px,100% 100%;
+    background-position:18px 18px, calc(100% - 18px) 18px, 18px calc(100% - 18px), calc(100% - 18px) calc(100% - 18px), 0 0;
+    border:1px solid var(--line);border-radius:24px;
+    padding:28px 26px 24px;max-width:440px;
+    box-shadow:
+      0 32px 60px -28px rgba(0,0,0,.75),
+      0 1px 0 rgba(255,255,255,.05) inset,
+      0 0 0 1px rgba(0,0,0,.4);
   }
-  .reel::before{
-    content:"";
-    width:16px;height:16px;border-radius:50%;
-    background:var(--reel-color,var(--amber));
+  .cassette::before{
+    content:"";position:absolute;inset:1px;border-radius:23px;pointer-events:none;
+    background:radial-gradient(ellipse 320px 130px at 50% -8%, rgba(232,163,61,.11), transparent 70%);
   }
-  .reel::after{
-    content:"";
-    position:absolute; inset:10px;
-    border-radius:50%;
-    border:2px dashed var(--line);
+  .reels{position:relative;display:flex;align-items:center;justify-content:space-between;padding:6px 24px 18px;}
+  .waveform-bars{
+    flex:1;height:22px;margin:0 14px;position:relative;z-index:0;
+    display:flex;align-items:center;justify-content:space-between;gap:3px;
+    pointer-events:none;
   }
+  .wf-bar{
+    flex:1;max-width:6px;min-width:2px;border-radius:2px;
+    background:linear-gradient(180deg,var(--amber),var(--amber-deep));
+    transition:height .12s ease-out;opacity:.92;
+  }
+  .cassette.playing .wf-bar{transition:height .07s linear;}
+  .reel{
+    width:70px;height:70px;border-radius:50%;
+    border:5px solid var(--reel-color,var(--amber));
+    background:radial-gradient(circle at 32% 28%, #242426 0%, var(--bg) 72%);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;z-index:1;
+    box-shadow:
+      inset 0 0 0 1px rgba(0,0,0,.4),
+      inset 0 7px 10px -7px rgba(255,255,255,.10),
+      0 8px 16px -9px rgba(0,0,0,.7);
+    animation:spin 2.4s linear infinite paused;
+    transition:box-shadow .35s ease;
+  }
+  .reel::before{content:"";width:16px;height:16px;border-radius:50%;background:var(--reel-color,var(--amber));
+    box-shadow:0 1px 2px rgba(0,0,0,.4);}
+  .reel::after{content:"";position:absolute;inset:12px;border-radius:50%;border:2px dashed var(--line);}
   .reel.left{--reel-color:var(--amber);}
   .reel.right{--reel-color:var(--teal);}
-  .app.playing .reel{animation-play-state:running;}
+  .cassette.playing .reel{animation-play-state:running;}
+  .cassette.playing .reel.left{box-shadow:inset 0 0 0 1px rgba(0,0,0,.4), inset 0 7px 10px -7px rgba(255,255,255,.1), 0 0 20px -2px rgba(232,163,61,.6);}
+  .cassette.playing .reel.right{box-shadow:inset 0 0 0 1px rgba(0,0,0,.4), inset 0 7px 10px -7px rgba(255,255,255,.1), 0 0 20px -2px rgba(79,209,197,.6);}
   @keyframes spin{to{transform:rotate(360deg);}}
 
   .label{
-    background:var(--bg);
-    border-radius:10px;
-    padding:14px 16px;
-    text-align:center;
-    min-height:56px;
-    display:flex;flex-direction:column;justify-content:center;
-    gap:2px;
+    position:relative;
+    background:
+      repeating-linear-gradient(180deg, rgba(255,255,255,.014) 0 1px, transparent 1px 3px),
+      linear-gradient(180deg, #0F0F10, #08080A);
+    border-radius:14px;padding:16px 18px;
+    text-align:center;min-height:60px;
+    display:flex;flex-direction:column;justify-content:center;gap:4px;
+    border:1px solid var(--line-soft);
+    box-shadow:inset 0 2px 8px rgba(0,0,0,.55), inset 0 -1px 0 rgba(255,255,255,.03);
   }
-  .track-title{font-weight:700;font-size:16px;line-height:1.3;
-    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .track-sub{font-size:12px;color:var(--dim);
-    font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.04em;}
+  .track-title{font-family:var(--display);font-weight:600;font-size:17px;line-height:1.3;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    text-shadow:0 0 22px rgba(232,163,61,.12);}
+  .track-sub{font-size:11.5px;color:var(--dim);font-family:var(--mono);letter-spacing:.04em;}
 
-  .counter-row{
-    display:flex;justify-content:space-between;align-items:center;
-    margin-top:14px;font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:11px;color:var(--dim);
-  }
-  .tape-track{
-    height:6px;background:var(--line);border-radius:99px;margin:6px 0 0;
-    position:relative;cursor:pointer;
-  }
-  .tape-fill{
-    position:absolute;left:0;top:0;bottom:0;border-radius:99px;
-    background:linear-gradient(90deg,var(--amber),var(--teal));
-    width:0%;
-  }
+  .seek-wrap{position:relative;margin-top:18px;}
+  .tape-track{height:6px;background:var(--line);border-radius:99px;position:relative;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.5);}
+  .tape-fill{position:absolute;left:0;top:0;bottom:0;border-radius:99px;
+    background:linear-gradient(90deg,var(--amber),var(--teal));width:0%;
+    box-shadow:0 0 10px rgba(232,163,61,.45);}
   input[type=range]{
     -webkit-appearance:none;appearance:none;width:100%;height:6px;
     background:transparent;margin:0;position:relative;z-index:2;
   }
   input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
-    background:var(--cream);margin-top:-4px;box-shadow:0 0 0 3px rgba(0,0,0,.3);
+    -webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff, var(--cream) 65%);
+    margin-top:-5px;border:2px solid var(--bg);
+    box-shadow:0 0 0 4px rgba(232,163,61,.16), 0 3px 8px rgba(0,0,0,.55);
   }
   input[type=range]::-webkit-slider-runnable-track{height:6px;background:transparent;}
-  .seek-wrap{position:relative;margin-top:6px;}
   .seek-wrap .tape-track{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);z-index:1;}
 
-  .controls{
-    display:flex;align-items:center;justify-content:center;gap:22px;
-    margin-top:16px;
+  .counter-row{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-top:9px;font-family:var(--mono);font-size:11px;color:var(--dim);
   }
+
+  .controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:20px;}
   .btn-round{
-    background:var(--surface-2);border:1px solid var(--line);color:var(--cream);
+    background:linear-gradient(160deg,var(--surface-3),var(--surface-2));
+    border:1px solid var(--line);color:var(--cream);
     width:44px;height:44px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;cursor:pointer;
-    transition:transform .12s ease, background .12s ease;
+    box-shadow:0 5px 12px -7px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.07);
+    transition:transform .12s ease,box-shadow .15s ease,border-color .15s ease;flex:none;
   }
+  .btn-round:hover{border-color:var(--amber);}
   .btn-round:active{transform:scale(.92);}
+  .btn-round.skip{width:38px;height:38px;}
+  .btn-round.skip svg{width:16px;height:16px;}
   .btn-play{
-    width:60px;height:60px;background:linear-gradient(160deg,var(--amber),#C97D22);
+    width:60px;height:60px;background:linear-gradient(160deg,var(--amber),var(--amber-deep));
     color:#14131F;border:none;
+    box-shadow:0 12px 26px -10px rgba(232,163,61,.7), inset 0 1px 0 rgba(255,255,255,.35);
   }
-  .btn-round svg{width:18px;height:18px;}
+  .btn-play:hover{border-color:transparent;}
+  .cassette.playing .btn-play{animation:pulseGlow 2s ease-in-out infinite;}
+  @keyframes pulseGlow{
+    0%,100%{box-shadow:0 12px 26px -10px rgba(232,163,61,.7), inset 0 1px 0 rgba(255,255,255,.35);}
+    50%{box-shadow:0 12px 32px -6px rgba(232,163,61,.95), inset 0 1px 0 rgba(255,255,255,.35);}
+  }
+  .btn-round svg{width:17px;height:17px;}
   .btn-play svg{width:22px;height:22px;}
+  .skip-label{
+    position:absolute;font-family:var(--mono);font-size:8px;font-weight:600;
+    bottom:-3px;
+  }
 
-  .vol-row{display:flex;align-items:center;gap:10px;margin-top:16px;}
-  .vol-row svg{width:16px;height:16px;color:var(--dim);flex:none;}
+  .vol-row{display:flex;align-items:center;gap:10px;margin-top:20px;}
+  .vol-row svg{width:15px;height:15px;color:var(--dim);flex:none;}
   .vol-row input{flex:1;}
 
-  /* Playlist */
-  .section-head{
-    display:flex;justify-content:space-between;align-items:baseline;
-    margin:28px 2px 10px;
-  }
-  .section-head h2{font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin:0;font-weight:700;}
-  .count-pill{font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;color:var(--dim);}
+  .controls-secondary{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;}
+  .mini-toggle{width:34px;height:34px;background:var(--surface);border:1px solid var(--line);color:var(--dim);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;
+    transition:color .15s,border-color .15s,background .15s;flex:none;}
+  .mini-toggle svg{width:15px;height:15px;}
+  .mini-toggle:hover{color:var(--cream);}
+  .mini-toggle.active{color:var(--amber);border-color:var(--amber);background:rgba(232,163,61,.1);}
+  .mini-toggle .rpt-dot{position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;background:var(--amber);}
 
-  .add-btn{
-    width:100%;
-    border:1.5px dashed var(--line);
-    background:transparent;
-    color:var(--dim);
-    border-radius:14px;
-    padding:16px;
-    font-size:14px;
-    display:flex;align-items:center;justify-content:center;gap:8px;
-    cursor:pointer;
-    margin-bottom:14px;
-    transition:border-color .15s, color .15s;
+  .search-row{
+    display:flex;align-items:center;gap:10px;background:var(--surface);
+    border:1px solid var(--line-soft);border-radius:12px;padding:10px 14px;margin-bottom:16px;max-width:420px;
   }
-  .add-btn:hover, .add-btn:active{border-color:var(--amber);color:var(--amber);}
-  .add-btn svg{width:16px;height:16px;}
+  .search-row svg{width:16px;height:16px;color:var(--dim);flex:none;}
+  .search-row input{
+    flex:1;background:transparent;border:none;color:var(--cream);font-size:14px;font-family:var(--body);outline:none;
+  }
+  .search-row input::placeholder{color:var(--dim-2);}
 
-  .track-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
-  .track-item{
-    display:flex;align-items:center;gap:12px;
-    background:var(--surface);border:1px solid var(--line);
-    border-radius:12px;padding:10px 12px;cursor:pointer;
+  .drag-handle{
+    color:var(--dim-2);cursor:grab;flex:none;width:16px;height:16px;display:flex;align-items:center;justify-content:center;
+    touch-action:none;
   }
-  .track-item.active{border-color:var(--amber);background:var(--surface-2);}
-  .track-num{
-    font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:12px;color:var(--dim);width:20px;flex:none;text-align:center;
-  }
-  .track-item.active .track-num{color:var(--amber);}
-  .track-info{flex:1;min-width:0;}
-  .track-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .track-dur{font-size:11px;color:var(--dim);font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;}
-  .del-btn{
-    background:none;border:none;color:var(--dim);cursor:pointer;
-    padding:6px;flex:none;display:flex;
-  }
-  .del-btn:hover{color:var(--danger);}
-  .del-btn svg{width:16px;height:16px;}
+  .drag-handle:hover{color:var(--dim);}
+  .song-row.dragging{opacity:.35;}
+  .song-row.drag-over{border-color:var(--teal);}
 
-  .empty{
-    text-align:center;color:var(--dim);font-size:13px;
-    padding:28px 10px;border:1px solid var(--line);border-radius:12px;
-  }
+  .backup-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
 
-  input[type=file]{display:none;}
+  .detail-tracklist{margin-top:28px;max-width:520px;}
+  .detail-tracklist h2{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:0 0 10px;}
+
+  /* ---------- Mini player (persistent, hidden on playlist detail) ---------- */
+  .mini-player{
+    position:fixed;left:var(--sidebar-w);right:0;bottom:0;
+    background:rgba(25,22,41,.92);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line-soft);
+    padding:10px 22px;display:flex;align-items:center;gap:14px;
+    z-index:50;transform:translateY(110%);transition:transform .25s ease;
+  }
+  .mini-player.show{transform:translateY(0);}
+  .mini-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;cursor:pointer;}
+  .mini-title{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;}
+  .mini-sub{font-family:var(--mono);font-size:10.5px;color:var(--dim);}
+  .mini-controls{display:flex;align-items:center;gap:8px;flex:none;}
+  .mini-controls .btn-round{width:34px;height:34px;}
+  .mini-controls .btn-round svg{width:14px;height:14px;}
+  .mini-controls .btn-play{width:40px;height:40px;}
+  .mini-controls .btn-play svg{width:16px;height:16px;}
+  .mini-seek{flex:1;max-width:220px;display:none;}
+
+  /* ---------- Modal ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(10,9,17,.62);backdrop-filter:blur(2px);
+    display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  .modal{
+    background:var(--surface);border:1px solid var(--line);border-radius:18px;
+    width:100%;max-width:420px;padding:22px;max-height:80vh;overflow:auto;
+  }
+  .modal h3{font-family:var(--display);font-size:19px;margin:0 0 14px;}
+  .modal label{font-size:12px;color:var(--dim);font-family:var(--mono);letter-spacing:.04em;}
+  .modal input[type=text]{
+    width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;color:var(--cream);font-size:14px;margin-top:6px;margin-bottom:16px;
+    font-family:var(--body);
+  }
+  .modal input[type=text]:focus{outline:none;border-color:var(--amber);}
+  .modal-tracks{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow:auto;margin-bottom:18px;}
+  .check-row{
+    display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:9px;
+    background:var(--bg);border:1px solid var(--line-soft);cursor:pointer;font-size:13px;
+  }
+  .check-row input{accent-color:var(--amber);}
+  .modal-actions{display:flex;justify-content:flex-end;gap:8px;}
+
+  .modal-confirm-icon{
+    width:52px;height:52px;border-radius:50%;margin:0 auto 14px;
+    background:radial-gradient(circle at 35% 30%, rgba(232,112,79,.28), rgba(232,112,79,.08));
+    border:1px solid rgba(232,112,79,.4);
+    display:flex;align-items:center;justify-content:center;color:var(--danger);
+    box-shadow:0 0 0 6px rgba(232,112,79,.06);
+  }
+  .modal-confirm-icon svg{width:23px;height:23px;}
+  .modal-confirm h3{text-align:center;}
+  .modal-confirm-msg{text-align:center;color:var(--dim);font-size:13.5px;line-height:1.65;margin:0 0 22px;}
+  .btn-danger{background:linear-gradient(155deg,var(--danger),#B8492C);color:#1D0E08;border:none;}
+  .btn-danger:hover{filter:brightness(1.08);}
 
   .toast{
-    position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+    position:fixed;left:50%;bottom:88px;transform:translateX(-50%) translateY(20px);
     background:var(--surface-2);border:1px solid var(--line);color:var(--cream);
     padding:10px 18px;border-radius:99px;font-size:13px;
-    opacity:0;transition:opacity .25s ease, transform .25s ease;
-    pointer-events:none;
+    opacity:0;transition:opacity .25s ease, transform .25s ease;pointer-events:none;z-index:200;
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:820px){
+    :root{--sidebar-w:0px;}
+    .sidebar{
+      width:100%;height:64px;top:auto;bottom:0;left:0;right:0;
+      flex-direction:row;padding:0 6px;border-right:none;border-top:1px solid var(--line-soft);
+      align-items:center;justify-content:space-around;
+    }
+    .brand,.sidebar-foot,.nav-spacer{display:none;}
+    .nav-list{flex-direction:row;width:100%;justify-content:space-around;}
+    .nav-item{flex-direction:column;gap:3px;font-size:9.5px;padding:8px 6px;border-radius:10px;}
+    .nav-item svg{width:19px;height:19px;}
+    .main{margin-left:0;padding:22px 16px 150px;}
+    .mini-player{left:0;bottom:64px;padding:9px 14px;}
+    .mini-title{max-width:150px;}
+    h1.page-title{font-size:26px;}
+    .cassette{max-width:none;}
+    .tiktok-input-row{flex-direction:column;}
+  }
 </style>
 </head>
 <body>
-<div class="app" id="app">
-  <p class="eyebrow">มิกซ์เทปส่วนตัว · เก็บในเครื่องนี้เท่านั้น</p>
-  <h1>เพลงของ<span class="accent">ฉัน</span></h1>
+<div class="shell">
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 4a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm-4.5 1.5A1.5 1.5 0 118.99 10a1.5 1.5 0 01-1.5-1.5zm9 0A1.5 1.5 0 1118 10a1.5 1.5 0 01-1.5-1.5z"/></svg>
+      </div>
+      <div class="brand-text">Noattepza Archive<span class="sub">Local Tape Library</span></div>
+    </div>
+    <ul class="nav-list">
+      <li class="nav-item" data-route="home">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3z"/></svg>
+        หน้าแรก
+      </li>
+      <li class="nav-item" data-route="create">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+        สร้างเพลย์ลิสต์
+      </li>
+      <li class="nav-item" data-route="songs">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        เพลงทั้งหมด
+      </li>
+      <li class="nav-item" data-route="upload">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 20h14v-2H5v2zM12 3l-6 6h4v6h4V9h4l-6-6z"/></svg>
+        อัปโหลดเพลง
+      </li>
+    </ul>
+    <div class="nav-spacer"></div>
+    <div class="sidebar-foot">เพลงถูกเก็บไว้ในเบราว์เซอร์นี้เท่านั้น ไม่มีการอัปโหลดขึ้นเซิร์ฟเวอร์</div>
+  </nav>
 
-  <div class="cassette">
-    <div class="reels">
-      <div class="reel-wrap"><div class="reel left"></div></div>
-      <div class="reel-wrap"><div class="reel right"></div></div>
-    </div>
-    <div class="label">
-      <div class="track-title" id="trackTitle">ยังไม่มีเพลง</div>
-      <div class="track-sub" id="trackSub">เพิ่มเพลงจากเครื่องด้านล่าง</div>
-    </div>
+  <main class="main" id="view"></main>
 
-    <div class="seek-wrap">
-      <div class="tape-track"><div class="tape-fill" id="tapeFill"></div></div>
-      <input type="range" id="seek" min="0" max="100" value="0" step="0.1">
+  <div class="mini-player" id="miniPlayer">
+    <div class="mini-info" id="miniInfo">
+      <div class="mini-title" id="miniTitle">—</div>
+      <div class="mini-sub" id="miniSub"></div>
     </div>
-    <div class="counter-row">
-      <span id="curTime">00:00</span>
-      <span id="durTime">00:00</span>
-    </div>
-
-    <div class="controls">
-      <button class="btn-round" id="prevBtn" aria-label="เพลงก่อนหน้า">
+    <div class="mini-controls">
+      <button class="btn-round" id="miniPrev" aria-label="ก่อนหน้า">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6v12l-8.5-6z"/></svg>
       </button>
-      <button class="btn-round btn-play" id="playBtn" aria-label="เล่น/หยุด">
-        <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <button class="btn-round btn-play" id="miniPlay" aria-label="เล่น/หยุด">
+        <svg id="miniPlayIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
       </button>
-      <button class="btn-round" id="nextBtn" aria-label="เพลงถัดไป">
+      <button class="btn-round" id="miniNext" aria-label="ถัดไป">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM4 6v12l8.5-6z"/></svg>
       </button>
     </div>
-
-    <div class="vol-row">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 7.97v8.05a4.5 4.5 0 0 0 2.5-3.02z"/></svg>
-      <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
-    </div>
   </div>
-
-  <div class="section-head">
-    <h2>เพลย์ลิสต์</h2>
-    <span class="count-pill" id="countPill">0 เพลง</span>
-  </div>
-
-  <button class="add-btn" id="addBtn">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
-    เพิ่มเพลงจากเครื่อง (mp3, m4a, wav…)
-  </button>
-  <input type="file" id="fileInput" accept="audio/*" multiple>
-
-  <ul class="track-list" id="trackList"></ul>
-  <div class="empty" id="emptyState">ยังไม่มีเพลงในเครื่อง กดปุ่มด้านบนเพื่อเพิ่มเพลงที่ดาวน์โหลดไว้ในมือถือ</div>
 </div>
 
 <div class="toast" id="toast"></div>
+<div id="modalRoot"></div>
 
 <script>
-// ---------- IndexedDB ----------
-const DB_NAME = 'mixtapeDB';
-const STORE = 'tracks';
+/* ======================= IndexedDB ======================= */
+const DB_NAME = 'archiveDB';
 let db;
 
 function openDB(){
-  return new Promise((resolve, reject)=>{
+  return new Promise((resolve,reject)=>{
     const req = indexedDB.open(DB_NAME, 1);
     req.onupgradeneeded = (e)=>{
       const _db = e.target.result;
-      if(!_db.objectStoreNames.contains(STORE)){
-        const store = _db.createObjectStore(STORE, {keyPath:'id', autoIncrement:true});
-        store.createIndex('addedAt','addedAt');
+      if(!_db.objectStoreNames.contains('tracks')){
+        _db.createObjectStore('tracks',{keyPath:'id',autoIncrement:true}).createIndex('addedAt','addedAt');
+      }
+      if(!_db.objectStoreNames.contains('playlists')){
+        _db.createObjectStore('playlists',{keyPath:'id',autoIncrement:true}).createIndex('createdAt','createdAt');
       }
     };
-    req.onsuccess = (e)=>resolve(e.target.result);
-    req.onerror = (e)=>reject(e.target.error);
+    req.onsuccess = e=>resolve(e.target.result);
+    req.onerror = e=>reject(e.target.error);
+  });
+}
+function dbAdd(store,obj){
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readwrite');
+    const r = tx.objectStore(store).add(obj);
+    r.onsuccess = ()=>res(r.result);
+    r.onerror = e=>rej(e.target.error);
+  });
+}
+function dbPut(store,obj){
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readwrite');
+    const r = tx.objectStore(store).put(obj);
+    r.onsuccess = ()=>res(r.result);
+    r.onerror = e=>rej(e.target.error);
+  });
+}
+function dbDelete(store,id){
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readwrite');
+    const r = tx.objectStore(store).delete(id);
+    r.onsuccess = ()=>res();
+    r.onerror = e=>rej(e.target.error);
+  });
+}
+function dbGetAll(store,sortKey){
+  return new Promise((res,rej)=>{
+    const tx = db.transaction(store,'readonly');
+    const r = tx.objectStore(store).getAll();
+    r.onsuccess = ()=>{
+      const arr = r.result;
+      if(sortKey) arr.sort((a,b)=>a[sortKey]-b[sortKey]);
+      res(arr);
+    };
+    r.onerror = e=>rej(e.target.error);
   });
 }
 
-function addTrack(track){
-  return new Promise((resolve,reject)=>{
-    const tx = db.transaction(STORE,'readwrite');
-    const req = tx.objectStore(STORE).add(track);
-    req.onsuccess = ()=>resolve(req.result);
-    req.onerror = (e)=>reject(e.target.error);
-  });
+/* ======================= TikTok fetch (personal use) ======================= */
+// เว็ป API สาธารณะแบบเดียวกับที่ใช้ในเว็ปดาวน์โหลด TikTok ของคุณ
+const TIKTOK_API_ENDPOINT = "https://www.tikwm.com/api/";
+let tiktokFetchedData = null; // ผลลัพธ์ล่าสุดที่ดึงมา รอกดยืนยันเพิ่มเข้าคลัง
+
+async function tiktokFetchInfo(url){
+  const apiUrl = `${TIKTOK_API_ENDPOINT}?url=${encodeURIComponent(url)}&hd=1`;
+  const res = await fetch(apiUrl);
+  if(!res.ok) throw new Error('เรียก API ไม่สำเร็จ (' + res.status + ')');
+  const json = await res.json();
+  if(json.code !== 0 || !json.data) throw new Error(json.msg || 'ไม่พบวิดีโอจากลิงก์นี้');
+  return json.data;
 }
 
-function getAllTracks(){
-  return new Promise((resolve,reject)=>{
-    const tx = db.transaction(STORE,'readonly');
-    const req = tx.objectStore(STORE).getAll();
-    req.onsuccess = ()=>resolve(req.result.sort((a,b)=>a.addedAt-b.addedAt));
-    req.onerror = (e)=>reject(e.target.error);
-  });
+async function urlToBlob(url){
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('ดาวน์โหลดไฟล์ไม่สำเร็จ (' + res.status + ')');
+  return await res.blob();
 }
 
-function deleteTrack(id){
-  return new Promise((resolve,reject)=>{
-    const tx = db.transaction(STORE,'readwrite');
-    const req = tx.objectStore(STORE).delete(id);
-    req.onsuccess = ()=>resolve();
-    req.onerror = (e)=>reject(e.target.error);
-  });
-}
-
-// ---------- State ----------
-let tracks = [];
-let currentIndex = -1;
+/* ======================= State ======================= */
+let tracks = [];      // {id,name,blob,duration,addedAt}
+let playlists = [];   // {id,name,trackIds:[],createdAt}
+let route = {name:'home', params:{}};
 let objectUrl = null;
+let queue = [];        // ordered array of track objects currently playable
+let queueContext = null; // {type:'playlist'|'all', id}
+let currentIndex = -1;
+let shuffleOn = false;
+let repeatMode = 'off'; // 'off' | 'all' | 'one'
+let songSearchQuery = '';
+let visibleSongs = [];  // last filtered list shown on the "all songs" page
+let dragSrcIndex = null;
+
 const audio = new Audio();
 audio.preload = 'metadata';
 
-const appEl = document.getElementById('app');
-const trackListEl = document.getElementById('trackList');
-const emptyStateEl = document.getElementById('emptyState');
-const countPillEl = document.getElementById('countPill');
-const trackTitleEl = document.getElementById('trackTitle');
-const trackSubEl = document.getElementById('trackSub');
-const playBtn = document.getElementById('playBtn');
-const playIcon = document.getElementById('playIcon');
-const seekEl = document.getElementById('seek');
-const tapeFillEl = document.getElementById('tapeFill');
-const curTimeEl = document.getElementById('curTime');
-const durTimeEl = document.getElementById('durTime');
-const volumeEl = document.getElementById('volume');
-const toastEl = document.getElementById('toast');
-
-const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
-const ICON_PAUSE = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
-
-function fmtTime(s){
-  if(!isFinite(s) || s<0) s = 0;
-  const m = Math.floor(s/60);
-  const sec = Math.floor(s%60);
-  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+/* ======================= Waveform (Web Audio analyser) ======================= */
+const WAVEFORM_BASELINE = [6,10,14,8,18,12,20,9,15,7,11,17,13,19,8,14,10,16,12,7,18,9,15,11];
+function renderWaveformBarsHTML(){
+  return WAVEFORM_BASELINE.map(h=>`<span class="wf-bar" style="height:${h}px"></span>`).join('');
 }
-
-function showToast(msg){
-  toastEl.textContent = msg;
-  toastEl.classList.add('show');
-  clearTimeout(showToast._t);
-  showToast._t = setTimeout(()=>toastEl.classList.remove('show'), 2200);
+let audioCtx=null, analyser=null, sourceNode=null, waveformData=null, waveformRaf=null;
+function primeAudioGraph(){
+  if(audioCtx){
+    if(audioCtx.state==='suspended') audioCtx.resume().catch(()=>{});
+    return;
+  }
+  try{
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) return;
+    audioCtx = new Ctx();
+    sourceNode = audioCtx.createMediaElementSource(audio);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 64;
+    analyser.smoothingTimeConstant = 0.75;
+    sourceNode.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    waveformData = new Uint8Array(analyser.frequencyBinCount);
+  }catch(err){
+    console.warn('Waveform analyser unavailable:', err);
+    audioCtx = null; analyser = null;
+  }
 }
-
-function renderList(){
-  trackListEl.innerHTML = '';
-  emptyStateEl.style.display = tracks.length ? 'none' : 'block';
-  countPillEl.textContent = tracks.length + ' เพลง';
-
-  tracks.forEach((t, i)=>{
-    const li = document.createElement('li');
-    li.className = 'track-item' + (i===currentIndex ? ' active' : '');
-    li.innerHTML = `
-      <span class="track-num">${String(i+1).padStart(2,'0')}</span>
-      <div class="track-info">
-        <div class="track-name">${escapeHtml(t.name)}</div>
-        <div class="track-dur">${t.duration ? fmtTime(t.duration) : ''}</div>
-      </div>
-      <button class="del-btn" data-id="${t.id}" aria-label="ลบเพลง">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 7h12l-1 13H7L6 7zm3-3h6l1 2H8l1-2z"/></svg>
-      </button>
-    `;
-    li.addEventListener('click', (e)=>{
-      if(e.target.closest('.del-btn')) return;
-      loadTrack(i, true);
-    });
-    li.querySelector('.del-btn').addEventListener('click', async (e)=>{
-      e.stopPropagation();
-      const id = Number(e.currentTarget.dataset.id);
-      await deleteTrack(id);
-      const removedIdx = tracks.findIndex(x=>x.id===id);
-      tracks = tracks.filter(x=>x.id!==id);
-      if(removedIdx === currentIndex){
-        audio.pause();
-        currentIndex = -1;
-        trackTitleEl.textContent = tracks.length ? 'เลือกเพลงจากเพลย์ลิสต์' : 'ยังไม่มีเพลง';
-        trackSubEl.textContent = '';
-        setPlayingUI(false);
-      } else if(removedIdx < currentIndex){
-        currentIndex--;
+function startWaveformLoop(){
+  cancelAnimationFrame(waveformRaf);
+  if(!analyser) return;
+  const tick = ()=>{
+    const bars = document.querySelectorAll('#waveformBars .wf-bar');
+    if(bars.length){
+      analyser.getByteFrequencyData(waveformData);
+      const n = bars.length;
+      for(let i=0;i<n;i++){
+        const bin = Math.floor((i/n) * (waveformData.length*0.7)); // favor bass/mid bins with more musical energy
+        const v = waveformData[bin] || 0;
+        bars[i].style.height = (Math.max(4, Math.round((v/255)*20)+4))+'px';
       }
-      renderList();
-      showToast('ลบเพลงแล้ว');
-    });
-    trackListEl.appendChild(li);
+    }
+    waveformRaf = requestAnimationFrame(tick);
+  };
+  waveformRaf = requestAnimationFrame(tick);
+}
+function stopWaveformLoop(){
+  cancelAnimationFrame(waveformRaf);
+  waveformRaf = null;
+  document.querySelectorAll('#waveformBars .wf-bar').forEach((bar,i)=>{
+    bar.style.height = WAVEFORM_BASELINE[i % WAVEFORM_BASELINE.length]+'px';
   });
 }
+audio.addEventListener('play', startWaveformLoop);
+audio.addEventListener('pause', stopWaveformLoop);
+audio.addEventListener('ended', stopWaveformLoop);
 
+/* ======================= Helpers ======================= */
+function fmtTime(s){
+  if(!isFinite(s)||s<0) s=0;
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+}
 function escapeHtml(str){
   const d = document.createElement('div');
   d.textContent = str;
   return d.innerHTML;
 }
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'),2200);
+}
+function navigate(name, params={}){
+  route = {name, params};
+  render();
+}
 
-function loadTrack(index, autoplay){
-  if(index < 0 || index >= tracks.length) return;
-  currentIndex = index;
-  const t = tracks[index];
+/* ======================= Playback engine ======================= */
+function playQueue(list, startIndex, context){
+  queue = list;
+  queueContext = context;
+  loadIndex(startIndex, true);
+}
+function loadIndex(i, autoplay){
+  if(i<0 || i>=queue.length) return;
+  currentIndex = i;
+  const t = queue[i];
   if(objectUrl) URL.revokeObjectURL(objectUrl);
   objectUrl = URL.createObjectURL(t.blob);
   audio.src = objectUrl;
-  trackTitleEl.textContent = t.name;
-  trackSubEl.textContent = 'แทร็ก ' + String(index+1).padStart(2,'0') + ' / ' + String(tracks.length).padStart(2,'0');
-  renderList();
-  if(autoplay){
-    audio.play().catch(()=>{});
-  }
+  if(autoplay){ primeAudioGraph(); audio.play().catch(()=>{}); }
+  updateNowPlayingUI();
+  renderTrackListsHighlight();
 }
-
-function setPlayingUI(isPlaying){
-  playIcon.innerHTML = isPlaying ? ICON_PAUSE : ICON_PLAY;
-  appEl.classList.toggle('playing', isPlaying);
-}
-
-playBtn.addEventListener('click', ()=>{
-  if(currentIndex === -1){
-    if(tracks.length) loadTrack(0, true);
+function togglePlay(){
+  if(currentIndex===-1){
+    if(queue.length) loadIndex(0,true);
     return;
   }
-  if(audio.paused){ audio.play().catch(()=>{}); }
-  else { audio.pause(); }
-});
-
-document.getElementById('prevBtn').addEventListener('click', ()=>{
-  if(!tracks.length) return;
-  const i = currentIndex <= 0 ? tracks.length-1 : currentIndex-1;
-  loadTrack(i, true);
-});
-document.getElementById('nextBtn').addEventListener('click', ()=>{
-  if(!tracks.length) return;
-  const i = currentIndex >= tracks.length-1 ? 0 : currentIndex+1;
-  loadTrack(i, true);
-});
+  if(audio.paused){ primeAudioGraph(); audio.play().catch(()=>{}); }
+  else audio.pause();
+}
+function nextIndexFor(delta){
+  if(!queue.length) return -1;
+  if(shuffleOn && queue.length>1){
+    let i;
+    do{ i = Math.floor(Math.random()*queue.length); }while(i===currentIndex);
+    return i;
+  }
+  let i = currentIndex + delta;
+  if(i<0) i = queue.length-1;
+  if(i>=queue.length) i = 0;
+  return i;
+}
+function skip(delta){
+  if(!queue.length) return;
+  loadIndex(nextIndexFor(delta), true);
+}
+function toggleShuffle(){
+  shuffleOn = !shuffleOn;
+  refreshTransportToggles();
+  showToast(shuffleOn ? 'เปิดสุ่มเพลง' : 'ปิดสุ่มเพลง');
+}
+function cycleRepeat(){
+  repeatMode = repeatMode==='off' ? 'all' : repeatMode==='all' ? 'one' : 'off';
+  refreshTransportToggles();
+  const labels = {off:'ปิดวนซ้ำ', all:'วนซ้ำทั้งเพลย์ลิสต์', one:'วนซ้ำเพลงเดียว'};
+  showToast(labels[repeatMode]);
+}
+function refreshTransportToggles(){
+  const sBtn = document.getElementById('shuffleBtn');
+  const rBtn = document.getElementById('repeatBtn');
+  if(sBtn) sBtn.classList.toggle('active', shuffleOn);
+  if(rBtn){
+    rBtn.classList.toggle('active', repeatMode!=='off');
+    let dot = rBtn.querySelector('.rpt-dot');
+    if(repeatMode==='one'){
+      if(!dot){ dot = document.createElement('span'); dot.className='rpt-dot'; rBtn.appendChild(dot); }
+    }else if(dot){ dot.remove(); }
+  }
+}
+function seekBy(sec){
+  if(currentIndex===-1 || !isFinite(audio.duration)) return;
+  audio.currentTime = Math.min(Math.max(0,audio.currentTime+sec), audio.duration);
+}
 
 audio.addEventListener('play', ()=>setPlayingUI(true));
 audio.addEventListener('pause', ()=>setPlayingUI(false));
 audio.addEventListener('ended', ()=>{
-  if(currentIndex < tracks.length-1) loadTrack(currentIndex+1, true);
+  if(repeatMode==='one'){
+    audio.currentTime = 0;
+    audio.play().catch(()=>{});
+    return;
+  }
+  if(shuffleOn && queue.length>1){
+    loadIndex(nextIndexFor(1), true);
+    return;
+  }
+  if(currentIndex < queue.length-1) loadIndex(currentIndex+1, true);
+  else if(repeatMode==='all' && queue.length) loadIndex(0, true);
   else setPlayingUI(false);
 });
-audio.addEventListener('timeupdate', ()=>{
-  if(!isFinite(audio.duration)) return;
-  const pct = (audio.currentTime/audio.duration)*100;
-  seekEl.value = pct;
-  tapeFillEl.style.width = pct + '%';
-  curTimeEl.textContent = fmtTime(audio.currentTime);
-  durTimeEl.textContent = fmtTime(audio.duration);
-});
 audio.addEventListener('loadedmetadata', ()=>{
-  durTimeEl.textContent = fmtTime(audio.duration);
-  if(currentIndex > -1 && tracks[currentIndex]){
-    tracks[currentIndex].duration = audio.duration;
+  if(currentIndex>-1 && queue[currentIndex]){
+    queue[currentIndex].duration = audio.duration;
+    const t = tracks.find(x=>x.id===queue[currentIndex].id);
+    if(t){ t.duration = audio.duration; dbPut('tracks', t); }
   }
+  updateTimeUI();
 });
-seekEl.addEventListener('input', ()=>{
-  if(!isFinite(audio.duration)) return;
-  audio.currentTime = (seekEl.value/100) * audio.duration;
-});
-volumeEl.addEventListener('input', ()=>{ audio.volume = volumeEl.value; });
+audio.addEventListener('timeupdate', updateTimeUI);
 
-// ---------- Add tracks ----------
-const addBtn = document.getElementById('addBtn');
-const fileInput = document.getElementById('fileInput');
-addBtn.addEventListener('click', ()=>fileInput.click());
-fileInput.addEventListener('change', async (e)=>{
-  const files = Array.from(e.target.files);
+function updateTimeUI(){
+  const durEl = document.getElementById('curTime');
+  const totEl = document.getElementById('durTime');
+  const fillEl = document.getElementById('tapeFill');
+  const seekEl = document.getElementById('seek');
+  const pct = isFinite(audio.duration) && audio.duration>0 ? (audio.currentTime/audio.duration)*100 : 0;
+  if(durEl) durEl.textContent = fmtTime(audio.currentTime);
+  if(totEl) totEl.textContent = fmtTime(audio.duration);
+  if(fillEl) fillEl.style.width = pct+'%';
+  if(seekEl && document.activeElement !== seekEl) seekEl.value = pct;
+}
+
+function setPlayingUI(isPlaying){
+  const cassette = document.querySelector('.cassette');
+  if(cassette) cassette.classList.toggle('playing', isPlaying);
+  const playIcon = document.getElementById('playIcon');
+  if(playIcon) playIcon.innerHTML = isPlaying ? ICON_PAUSE : ICON_PLAY;
+  const miniPlayIcon = document.getElementById('miniPlayIcon');
+  if(miniPlayIcon) miniPlayIcon.innerHTML = isPlaying ? ICON_PAUSE : ICON_PLAY;
+  refreshMiniPlayer();
+}
+const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
+const ICON_PAUSE = '<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>';
+const ICON_SHUFFLE = '<path d="M16 3h5v5M4 20L20.5 3.5M21 16v5h-5M15 15l5.5 5.5M4 4l5 5"/>';
+const ICON_REPEAT = '<path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3"/>';
+const ICON_EDIT = '<path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>';
+const ICON_DRAG = '<circle cx="9" cy="6" r="1.2"/><circle cx="15" cy="6" r="1.2"/><circle cx="9" cy="12" r="1.2"/><circle cx="15" cy="12" r="1.2"/><circle cx="9" cy="18" r="1.2"/><circle cx="15" cy="18" r="1.2"/>';
+const ICON_SEARCH = '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>';
+
+function updateNowPlayingUI(){
+  const t = queue[currentIndex];
+  const titleEl = document.getElementById('trackTitle');
+  const subEl = document.getElementById('trackSub');
+  if(titleEl) titleEl.textContent = t ? t.name : 'ยังไม่มีเพลง';
+  if(subEl) subEl.textContent = t ? `แทร็ก ${String(currentIndex+1).padStart(2,'0')} / ${String(queue.length).padStart(2,'0')}` : '';
+  refreshMiniPlayer();
+}
+function refreshMiniPlayer(){
+  const mp = document.getElementById('miniPlayer');
+  const t = queue[currentIndex];
+  const onDetail = route.name==='playlist' || route.name==='songs';
+  if(!t || onDetail){ mp.classList.remove('show'); return; }
+  mp.classList.add('show');
+  document.getElementById('miniTitle').textContent = t.name;
+  document.getElementById('miniSub').textContent = queueContext && queueContext.name ? queueContext.name : '';
+}
+document.getElementById('miniPlay').addEventListener('click', togglePlay);
+document.getElementById('miniPrev').addEventListener('click', ()=>skip(-1));
+document.getElementById('miniNext').addEventListener('click', ()=>skip(1));
+document.getElementById('miniInfo').addEventListener('click', ()=>{
+  if(queueContext && queueContext.type==='playlist') navigate('playlist',{id:queueContext.id});
+  else if(queueContext && queueContext.type==='all') navigate('songs');
+});
+
+function renderTrackListsHighlight(){
+  document.querySelectorAll('[data-track-row]').forEach(el=>{
+    const id = Number(el.dataset.trackRow);
+    const isPlaying = currentIndex>-1 && queue[currentIndex] && queue[currentIndex].id===id;
+    el.classList.toggle('playing', isPlaying);
+  });
+}
+
+/* ======================= Views ======================= */
+function setActiveNav(){
+  document.querySelectorAll('.nav-item').forEach(el=>{
+    el.classList.toggle('active',
+      (el.dataset.route==='home' && route.name==='home') ||
+      (el.dataset.route==='create' && route.name==='create') ||
+      (el.dataset.route==='songs' && (route.name==='songs')) ||
+      (el.dataset.route==='upload' && route.name==='upload')
+    );
+  });
+}
+
+function render(){
+  setActiveNav();
+  const view = document.getElementById('view');
+  if(route.name==='home') view.innerHTML = viewHome();
+  else if(route.name==='songs') view.innerHTML = viewAllSongs();
+  else if(route.name==='upload') view.innerHTML = viewUpload();
+  else if(route.name==='create') view.innerHTML = viewCreate();
+  else if(route.name==='playlist') view.innerHTML = viewPlaylistDetail(route.params.id);
+  bindViewEvents();
+  refreshMiniPlayer();
+  renderTrackListsHighlight();
+}
+
+function viewHome(){
+  let cards = playlists.map(p=>`
+    <div class="case-card" data-open-playlist="${p.id}">
+      <div class="case-actions">
+        <button data-rename-playlist="${p.id}" aria-label="แก้ไขชื่อเพลย์ลิสต์">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_EDIT}</svg>
+        </button>
+        <button class="danger" data-delete-playlist="${p.id}" aria-label="ลบเพลย์ลิสต์">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 7h12l-1 13H7L6 7zm3-3h6l1 2H8l1-2z"/></svg>
+        </button>
+      </div>
+      <div class="spine">
+        <div class="mini-reel"></div><div class="mini-reel"></div>
+      </div>
+      <div>
+        <div class="case-name">${escapeHtml(p.name)}</div>
+        <div class="case-meta">${p.trackIds.length} เพลง</div>
+      </div>
+    </div>
+  `).join('');
+  cards += `
+    <div class="create-tile" data-route-link="create">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg>
+      <span>สร้างเพลย์ลิสต์ใหม่</span>
+    </div>
+  `;
+  const grid = `<div class="playlist-grid">${cards}</div>`;
+  return `
+    <div class="view-head">
+      <p class="eyebrow">หน้าแรก</p>
+      <h1 class="page-title">เพลย์ลิสต์<span class="accent">ของคุณ</span></h1>
+      <p class="page-sub">รวมทุกเพลย์ลิสต์ที่คุณสร้างไว้ กดเข้าไปฟังเพลงในแต่ละม้วนเทปได้เลย</p>
+    </div>
+    ${grid}
+  `;
+}
+
+function getFilteredSongs(){
+  const q = songSearchQuery.trim().toLowerCase();
+  return q ? tracks.filter(t=>t.name.toLowerCase().includes(q)) : tracks;
+}
+
+function renderSongsListHTML(){
+  const filtered = getFilteredSongs();
+  visibleSongs = filtered;
+  if(!tracks.length){
+    return `
+    <div class="empty-panel">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <p>ยังไม่มีเพลงในคลัง เริ่มจากอัปโหลดเพลงจากเครื่องของคุณ หรือดึงจากลิงก์ TikTok</p>
+      <button class="btn btn-primary" data-route-link="upload">อัปโหลดเพลง</button>
+    </div>`;
+  }
+  if(!filtered.length){
+    return `<div class="empty-panel"><p>ไม่พบเพลงที่ตรงกับคำค้นหา "${escapeHtml(songSearchQuery)}"</p></div>`;
+  }
+  const rows = filtered.map((t,i)=>`
+    <li class="song-row" data-track-row="${t.id}" data-play-all="${i}">
+      <span class="song-num">${String(i+1).padStart(2,'0')}</span>
+      <div class="song-info">
+        <div class="song-name">${escapeHtml(t.name)}</div>
+        ${t.artist ? `<div class="song-artist">${escapeHtml(t.artist)}</div>` : ''}
+        <div class="song-dur">${t.duration ? fmtTime(t.duration) : '—'}</div>
+      </div>
+      <div class="row-actions">
+        <button class="icon-btn" data-rename-track="${t.id}" aria-label="แก้ไขชื่อเพลง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_EDIT}</svg>
+        </button>
+        <button class="icon-btn" data-add-to-playlist="${t.id}" aria-label="เพิ่มลงเพลย์ลิสต์">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zM2 16h8v-2H2v2zm19.5-4.5L18 15v-2h-4v-2h4V9z"/></svg>
+        </button>
+        <button class="icon-btn danger" data-delete-track="${t.id}" aria-label="ลบเพลง">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 7h12l-1 13H7L6 7zm3-3h6l1 2H8l1-2z"/></svg>
+        </button>
+      </div>
+    </li>
+  `).join('');
+  return `<ul class="track-list" style="list-style:none;padding:0;margin:0;">${rows}</ul>`;
+}
+
+function viewAllSongs(){
+  const isThisQueue = queueContext && queueContext.type==='all';
+  const nowTitle = isThisQueue && queue[currentIndex] ? queue[currentIndex].name : (tracks.length ? 'พร้อมเล่น' : 'ยังไม่มีเพลง');
+  const nowSub = isThisQueue && queue[currentIndex] ? `แทร็ก ${String(currentIndex+1).padStart(2,'0')} / ${String(queue.length).padStart(2,'0')}` : (tracks.length ? tracks.length+' เพลงในคลัง' : '');
+  return `
+    <div class="view-head">
+      <p class="eyebrow">คลังเพลง</p>
+      <h1 class="page-title">เพลง<span class="accent">ทั้งหมด</span></h1>
+      <p class="page-sub">เพลงทุกเพลงที่คุณอัปโหลดไว้ในเครื่องนี้ กดเพื่อเล่น หรือเพิ่มลงเพลย์ลิสต์</p>
+    </div>
+    ${tracks.length ? `
+    <div class="cassette" data-all-player style="margin-bottom:28px;">
+      <div class="reels">
+        <div class="reel left"></div>
+        <div class="waveform-bars" id="waveformBars">${renderWaveformBarsHTML()}</div>
+        <div class="reel right"></div>
+      </div>
+      <div class="label">
+        <div class="track-title" id="trackTitle">${escapeHtml(nowTitle)}</div>
+        <div class="track-sub" id="trackSub">${escapeHtml(nowSub)}</div>
+      </div>
+      <div class="seek-wrap">
+        <div class="tape-track"><div class="tape-fill" id="tapeFill"></div></div>
+        <input type="range" id="seek" min="0" max="100" value="0" step="0.1">
+      </div>
+      <div class="counter-row">
+        <span id="curTime">00:00</span>
+        <span id="durTime">00:00</span>
+      </div>
+      <div class="controls">
+        <button class="btn-round skip" id="backBtn" aria-label="ย้อนกลับ 10 วินาที">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5V1L5.7 6.3 11 11.6V7.6c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H3c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/></svg>
+        </button>
+        <button class="btn-round" id="prevBtn" aria-label="เพลงก่อนหน้า">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6v12l-8.5-6z"/></svg>
+        </button>
+        <button class="btn-round btn-play" id="playBtn" aria-label="เล่น/หยุด">
+          <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">${ (isThisQueue && !audio.paused) ? ICON_PAUSE : ICON_PLAY }</svg>
+        </button>
+        <button class="btn-round" id="nextBtn" aria-label="เพลงถัดไป">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM4 6v12l8.5-6z"/></svg>
+        </button>
+        <button class="btn-round skip" id="fwdBtn" aria-label="กรอไปข้างหน้า 10 วินาที">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 5V1l5.3 5.3L13 11.6V7.6c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6h2c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8z"/></svg>
+        </button>
+      </div>
+      <div class="controls-secondary">
+        <button class="mini-toggle${shuffleOn ? ' active' : ''}" id="shuffleBtn" aria-label="สุ่มเพลง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_SHUFFLE}</svg>
+        </button>
+        <button class="mini-toggle${repeatMode!=='off' ? ' active' : ''}" id="repeatBtn" aria-label="วนซ้ำ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_REPEAT}</svg>
+          ${repeatMode==='one' ? '<span class="rpt-dot"></span>' : ''}
+        </button>
+      </div>
+      <div class="vol-row">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0014 7.97v8.05a4.5 4.5 0 002.5-3.02z"/></svg>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="${audio.volume}">
+      </div>
+    </div>` : ''}
+    ${tracks.length ? `
+    <div class="search-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_SEARCH}</svg>
+      <input type="text" id="songSearch" placeholder="ค้นหาเพลง..." value="${escapeHtml(songSearchQuery)}">
+    </div>` : ''}
+    <div id="songsListWrap">${renderSongsListHTML()}</div>
+  `;
+}
+
+function viewUpload(){
+  return `
+    <div class="view-head">
+      <p class="eyebrow">อัปโหลดเพลง</p>
+      <h1 class="page-title">เพิ่มเพลง<span class="accent">เข้าคลัง</span></h1>
+      <p class="page-sub">เลือกไฟล์เพลงจากเครื่อง หรือวางลิงก์ TikTok เพื่อดึงเสียงเข้าคลังโดยตรง</p>
+    </div>
+    <div class="dropzone" id="dropzone">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 20h14v-2H5v2zM12 3l-6 6h4v6h4V9h4l-6-6z"/></svg>
+      <h3>ลากไฟล์มาวาง หรือแตะเพื่อเลือก</h3>
+      <p>รองรับไฟล์เสียงที่มีอยู่ในเครื่องของคุณ</p>
+      <div class="fmt">MP3 · M4A · WAV · AAC · OGG</div>
+      <input type="file" id="fileInput" accept="audio/*" multiple>
+    </div>
+    <div class="upload-note">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>
+      <div>เพื่อการใช้งานส่วนตัวเท่านั้น โปรดเคารพลิขสิทธิ์ของผู้สร้างคอนเทนต์ และข้อตกลงการใช้งานของแต่ละแพลตฟอร์ม</div>
+    </div>
+
+    <div class="section-divider">หรือดึงจากลิงก์ TikTok</div>
+    <div class="tiktok-box">
+      <div class="tiktok-head">
+        <div class="tk-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0115.54 3h-3.09v12.4a2.59 2.59 0 11-1.83-2.48V9.72a5.83 5.83 0 100 8.53V21a5.42 5.42 0 003.4-1.16 5.63 5.63 0 002-4.3V8.6a7.05 7.05 0 004.4 1.5V6.86a4.28 4.28 0 01-3.82-1.04z"/></svg>
+        </div>
+        <div>
+          <h3>ดึงเสียงจาก TikTok</h3>
+          <p>วางลิงก์วิดีโอ TikTok เพื่อดึงเสียงมาเก็บไว้ในคลังเพลงของคุณ</p>
+        </div>
+      </div>
+      <div class="tiktok-input-row">
+        <input type="text" id="tiktokUrlInput" placeholder="วางลิงก์ TikTok ที่นี่...">
+        <button class="btn btn-primary" id="tiktokFetchBtn">ดึงข้อมูล</button>
+      </div>
+      <div class="tiktok-status" id="tiktokStatus"></div>
+      <div class="tiktok-preview" id="tiktokPreview">
+        <img id="tiktokThumb" src="" alt="">
+        <div class="tp-info">
+          <div class="tp-title" id="tiktokTitle"></div>
+          <div class="tp-author" id="tiktokAuthor"></div>
+          <div class="tp-actions">
+            <button class="btn btn-primary btn-sm" id="tiktokAddBtn">เพิ่มเสียงเข้าคลัง</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="queue-list" id="recentAdds" style="display:none;">
+      <h2>เพิ่มล่าสุด</h2>
+      <ul class="track-list" id="recentAddsList" style="list-style:none;padding:0;margin:0;"></ul>
+    </div>
+
+    <div class="section-divider">สำรอง / กู้คืนข้อมูล</div>
+    <div class="tiktok-box">
+      <div class="tiktok-head">
+        <div class="tk-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        </div>
+        <div>
+          <h3>สำรองคลังเพลง</h3>
+          <p>ข้อมูลทั้งหมดเก็บอยู่ในเบราว์เซอร์นี้เท่านั้น — ถ้าล้างข้อมูลเว็บไซต์หรือเปลี่ยนเครื่องจะหายหมด กด "ดาวน์โหลดไฟล์สำรอง" เก็บไว้เป็นระยะ แล้วนำเข้ากลับได้ทุกเมื่อ (ไฟล์อาจมีขนาดใหญ่ถ้าเพลงเยอะ)</p>
+        </div>
+      </div>
+      <div class="backup-actions">
+        <button class="btn btn-primary" id="exportBtn">ดาวน์โหลดไฟล์สำรอง</button>
+        <button class="btn btn-ghost" id="importBtn">นำเข้าไฟล์สำรอง</button>
+        <input type="file" id="importFileInput" accept="application/json,.json">
+      </div>
+      <div class="tiktok-status" id="backupStatus"></div>
+    </div>
+  `;
+}
+
+function viewCreate(){
+  const rows = tracks.map(t=>`
+    <label class="check-row">
+      <input type="checkbox" value="${t.id}">
+      <span>${escapeHtml(t.name)}</span>
+    </label>
+  `).join('') || `<div style="color:var(--dim);font-size:13px;">ยังไม่มีเพลงในคลัง — สร้างเพลย์ลิสต์ก่อนแล้วเพิ่มเพลงทีหลังได้</div>`;
+  return `
+    <div class="view-head">
+      <p class="eyebrow">สร้างเพลย์ลิสต์</p>
+      <h1 class="page-title">ตั้งชื่อ<span class="accent">เพลย์ลิสต์</span></h1>
+      <p class="page-sub">ตั้งชื่อม้วนเทปใหม่ของคุณ แล้วเลือกเพลงจากคลังที่มีอยู่ (ข้ามได้หากยังไม่มีเพลง)</p>
+    </div>
+    <div class="cassette" style="max-width:480px;">
+      <label style="font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;">ชื่อเพลย์ลิสต์</label>
+      <input type="text" id="newPlaylistName" placeholder="เช่น สายฝนยามเย็น" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 13px;color:var(--cream);font-size:14px;margin-top:6px;margin-bottom:18px;font-family:var(--body);">
+      <div style="font-family:var(--mono);font-size:12px;color:var(--dim);letter-spacing:.04em;margin-bottom:8px;">เลือกเพลง (ถ้ามี)</div>
+      <div class="modal-tracks" style="max-height:240px;">${rows}</div>
+      <div class="modal-actions">
+        <button class="btn" data-route-link="home">ยกเลิก</button>
+        <button class="btn btn-primary" id="saveNewPlaylist">สร้างเพลย์ลิสต์</button>
+      </div>
+    </div>
+  `;
+}
+
+function viewPlaylistDetail(id){
+  const pl = playlists.find(p=>p.id===id);
+  if(!pl) return `<div class="empty-panel"><p>ไม่พบเพลย์ลิสต์นี้</p><button class="btn btn-primary" data-route-link="home">กลับหน้าแรก</button></div>`;
+  const plTracks = pl.trackIds.map(tid=>tracks.find(t=>t.id===tid)).filter(Boolean);
+  const isThisQueue = queueContext && queueContext.type==='playlist' && queueContext.id===id;
+  const nowTitle = isThisQueue && queue[currentIndex] ? queue[currentIndex].name : (plTracks[0] ? 'พร้อมเล่น' : 'ยังไม่มีเพลง');
+  const nowSub = isThisQueue && queue[currentIndex] ? `แทร็ก ${String(currentIndex+1).padStart(2,'0')} / ${String(queue.length).padStart(2,'0')}` : (plTracks.length ? plTracks.length+' เพลงในเพลย์ลิสต์นี้' : '');
+
+  const rows = plTracks.length ? plTracks.map((t,i)=>`
+    <li class="song-row" data-track-row="${t.id}" data-play-playlist="${i}" draggable="true">
+      <span class="drag-handle" title="ลากเพื่อจัดลำดับ">
+        <svg viewBox="0 0 24 24" fill="currentColor">${ICON_DRAG}</svg>
+      </span>
+      <span class="song-num">${String(i+1).padStart(2,'0')}</span>
+      <div class="song-info">
+        <div class="song-name">${escapeHtml(t.name)}</div>
+        ${t.artist ? `<div class="song-artist">${escapeHtml(t.artist)}</div>` : ''}
+        <div class="song-dur">${t.duration ? fmtTime(t.duration) : '—'}</div>
+      </div>
+      <div class="row-actions">
+        <button class="icon-btn" data-rename-track="${t.id}" aria-label="แก้ไขชื่อเพลง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_EDIT}</svg>
+        </button>
+        <button class="icon-btn danger" data-remove-from-playlist="${t.id}" aria-label="นำออกจากเพลย์ลิสต์">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14z"/></svg>
+        </button>
+      </div>
+    </li>
+  `).join('') : `
+    <div class="empty-panel">
+      <p>ยังไม่มีเพลงในเพลย์ลิสต์นี้</p>
+      <button class="btn btn-primary" id="addTracksBtn">เพิ่มเพลงจากคลัง</button>
+    </div>
+  `;
+
+  return `
+    <span class="detail-back" data-route-link="home">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.8l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20z"/></svg>
+      กลับไปหน้าแรก
+    </span>
+    <div class="view-head" style="margin-bottom:20px;">
+      <p class="eyebrow">เพลย์ลิสต์</p>
+      <h1 class="page-title" style="display:flex;align-items:center;gap:10px;">
+        ${escapeHtml(pl.name)}
+        <button class="icon-btn" data-rename-playlist="${pl.id}" aria-label="แก้ไขชื่อเพลย์ลิสต์" style="font-size:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_EDIT}</svg>
+        </button>
+        <button class="icon-btn danger" data-delete-playlist="${pl.id}" aria-label="ลบเพลย์ลิสต์" style="font-size:0;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 7h12l-1 13H7L6 7zm3-3h6l1 2H8l1-2z"/></svg>
+        </button>
+      </h1>
+      <p class="page-sub">${pl.trackIds.length} เพลง</p>
+    </div>
+
+    <div class="cassette" data-playlist-player="${id}">
+      <div class="reels">
+        <div class="reel left"></div>
+        <div class="waveform-bars" id="waveformBars">${renderWaveformBarsHTML()}</div>
+        <div class="reel right"></div>
+      </div>
+      <div class="label">
+        <div class="track-title" id="trackTitle">${escapeHtml(nowTitle)}</div>
+        <div class="track-sub" id="trackSub">${escapeHtml(nowSub)}</div>
+      </div>
+      <div class="seek-wrap">
+        <div class="tape-track"><div class="tape-fill" id="tapeFill"></div></div>
+        <input type="range" id="seek" min="0" max="100" value="0" step="0.1">
+      </div>
+      <div class="counter-row">
+        <span id="curTime">00:00</span>
+        <span id="durTime">00:00</span>
+      </div>
+      <div class="controls">
+        <button class="btn-round skip" id="backBtn" aria-label="ย้อนกลับ 10 วินาที" style="position:relative;">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5V1L5.7 6.3 11 11.6V7.6c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H3c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/></svg>
+        </button>
+        <button class="btn-round" id="prevBtn" aria-label="เพลงก่อนหน้า">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM20 6v12l-8.5-6z"/></svg>
+        </button>
+        <button class="btn-round btn-play" id="playBtn" aria-label="เล่น/หยุด">
+          <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">${ (isThisQueue && !audio.paused) ? ICON_PAUSE : ICON_PLAY }</svg>
+        </button>
+        <button class="btn-round" id="nextBtn" aria-label="เพลงถัดไป">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM4 6v12l8.5-6z"/></svg>
+        </button>
+        <button class="btn-round skip" id="fwdBtn" aria-label="กรอไปข้างหน้า 10 วินาที">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 5V1l5.3 5.3L13 11.6V7.6c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6h2c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8z"/></svg>
+        </button>
+      </div>
+      <div class="controls-secondary">
+        <button class="mini-toggle${shuffleOn ? ' active' : ''}" id="shuffleBtn" aria-label="สุ่มเพลง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_SHUFFLE}</svg>
+        </button>
+        <button class="mini-toggle${repeatMode!=='off' ? ' active' : ''}" id="repeatBtn" aria-label="วนซ้ำ">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_REPEAT}</svg>
+          ${repeatMode==='one' ? '<span class="rpt-dot"></span>' : ''}
+        </button>
+      </div>
+      <div class="vol-row">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0014 7.97v8.05a4.5 4.5 0 002.5-3.02z"/></svg>
+        <input type="range" id="volume" min="0" max="1" step="0.01" value="${audio.volume}">
+      </div>
+    </div>
+
+    <div class="detail-tracklist">
+      <h2>เพลงในเพลย์ลิสต์</h2>
+      <ul class="track-list" id="detailTrackList" style="list-style:none;padding:0;margin:0;">${rows}</ul>
+      ${plTracks.length ? `<button class="btn btn-ghost btn-sm" id="addTracksBtn" style="margin-top:10px;">+ เพิ่มเพลงจากคลัง</button>` : ''}
+    </div>
+  `;
+}
+
+/* ======================= Modals ======================= */
+function openAddToPlaylistModal(trackId){
+  const root = document.getElementById('modalRoot');
+  const options = playlists.map(p=>`
+    <label class="check-row">
+      <input type="checkbox" value="${p.id}" ${p.trackIds.includes(trackId) ? 'checked' : ''}>
+      <span>${escapeHtml(p.name)}</span>
+    </label>
+  `).join('') || `<div style="color:var(--dim);font-size:13px;">ยังไม่มีเพลย์ลิสต์ — สร้างใหม่ก่อน</div>`;
+  root.innerHTML = `
+    <div class="overlay" id="ovAdd">
+      <div class="modal">
+        <h3>เพิ่มลงเพลย์ลิสต์</h3>
+        <div class="modal-tracks">${options}</div>
+        <div class="modal-actions">
+          <button class="btn" id="cancelAdd">ปิด</button>
+          <button class="btn btn-primary" id="confirmAdd">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('ovAdd').addEventListener('click', e=>{ if(e.target.id==='ovAdd') root.innerHTML=''; });
+  document.getElementById('cancelAdd').addEventListener('click', ()=>root.innerHTML='');
+  document.getElementById('confirmAdd').addEventListener('click', async ()=>{
+    const checked = Array.from(root.querySelectorAll('.check-row input:checked')).map(i=>Number(i.value));
+    for(const p of playlists){
+      const should = checked.includes(p.id);
+      const has = p.trackIds.includes(trackId);
+      if(should && !has) p.trackIds.push(trackId);
+      if(!should && has) p.trackIds = p.trackIds.filter(id=>id!==trackId);
+      await dbPut('playlists', p);
+    }
+    root.innerHTML = '';
+    showToast('อัปเดตเพลย์ลิสต์แล้ว');
+    render();
+  });
+}
+
+function openAddTracksToPlaylistModal(playlistId){
+  const pl = playlists.find(p=>p.id===playlistId);
+  const root = document.getElementById('modalRoot');
+  const options = tracks.map(t=>`
+    <label class="check-row">
+      <input type="checkbox" value="${t.id}" ${pl.trackIds.includes(t.id) ? 'checked' : ''}>
+      <span>${escapeHtml(t.name)}</span>
+    </label>
+  `).join('') || `<div style="color:var(--dim);font-size:13px;">ยังไม่มีเพลงในคลัง</div>`;
+  root.innerHTML = `
+    <div class="overlay" id="ovTracks">
+      <div class="modal">
+        <h3>เพิ่มเพลงจากคลัง</h3>
+        <div class="modal-tracks">${options}</div>
+        <div class="modal-actions">
+          <button class="btn" id="cancelTracks">ปิด</button>
+          <button class="btn btn-primary" id="confirmTracks">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('ovTracks').addEventListener('click', e=>{ if(e.target.id==='ovTracks') root.innerHTML=''; });
+  document.getElementById('cancelTracks').addEventListener('click', ()=>root.innerHTML='');
+  document.getElementById('confirmTracks').addEventListener('click', async ()=>{
+    const checked = Array.from(root.querySelectorAll('.check-row input:checked')).map(i=>Number(i.value));
+    pl.trackIds = checked;
+    await dbPut('playlists', pl);
+    root.innerHTML = '';
+    showToast('อัปเดตเพลย์ลิสต์แล้ว');
+    render();
+  });
+}
+
+/* ======================= Songs list (search-aware) events ======================= */
+function bindSongsListEvents(){
+  document.querySelectorAll('[data-play-all]').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      if(e.target.closest('.row-actions')) return;
+      playQueue(visibleSongs.slice(), Number(el.dataset.playAll), {type:'all', name: songSearchQuery ? 'ผลการค้นหา' : 'เพลงทั้งหมด'});
+    });
+  });
+  document.querySelectorAll('[data-add-to-playlist]').forEach(el=>{
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); openAddToPlaylistModal(Number(el.dataset.addToPlaylist)); });
+  });
+  document.querySelectorAll('[data-delete-track]').forEach(el=>{
+    el.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      const id = Number(el.dataset.deleteTrack);
+      await dbDelete('tracks', id);
+      tracks = tracks.filter(t=>t.id!==id);
+      for(const p of playlists){
+        if(p.trackIds.includes(id)){ p.trackIds = p.trackIds.filter(x=>x!==id); await dbPut('playlists',p); }
+      }
+      if(queue[currentIndex] && queue[currentIndex].id===id){ audio.pause(); currentIndex=-1; }
+      showToast('ลบเพลงแล้ว');
+      render();
+    });
+  });
+  document.querySelectorAll('[data-rename-track]').forEach(el=>{
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); openRenameModal('track', Number(el.dataset.renameTrack)); });
+  });
+}
+
+/* ======================= Rename modal ======================= */
+function openRenameModal(type, id){
+  const item = type==='track' ? tracks.find(t=>t.id===id) : playlists.find(p=>p.id===id);
+  if(!item) return;
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `
+    <div class="overlay" id="ovRename">
+      <div class="modal">
+        <h3>แก้ไขชื่อ${type==='track' ? 'เพลง' : 'เพลย์ลิสต์'}</h3>
+        <label>ชื่อเพลง</label>
+        <input type="text" id="renameInput" value="${escapeHtml(item.name)}" maxlength="120">
+        ${type==='track' ? `
+        <label>ชื่อศิลปิน / เจ้าของเพลง</label>
+        <input type="text" id="renameArtistInput" value="${escapeHtml(item.artist || '')}" placeholder="เช่น NCS, ชื่อศิลปิน..." maxlength="120">
+        ` : ''}
+        <div class="modal-actions">
+          <button class="btn" id="cancelRename">ยกเลิก</button>
+          <button class="btn btn-primary" id="confirmRename">บันทึก</button>
+        </div>
+      </div>
+    </div>
+  `;
+  const close = ()=>root.innerHTML = '';
+  const input = document.getElementById('renameInput');
+  const artistInput = document.getElementById('renameArtistInput');
+  input.focus();
+  input.select();
+  document.getElementById('ovRename').addEventListener('click', e=>{ if(e.target.id==='ovRename') close(); });
+  document.getElementById('cancelRename').addEventListener('click', close);
+  const confirm = async ()=>{
+    const newName = input.value.trim();
+    if(!newName){ input.focus(); return; }
+    item.name = newName;
+    if(type==='track') item.artist = artistInput.value.trim();
+    await dbPut(type==='track' ? 'tracks' : 'playlists', item);
+    close();
+    showToast('บันทึกชื่อใหม่แล้ว');
+    render();
+  };
+  document.getElementById('confirmRename').addEventListener('click', confirm);
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') confirm(); });
+  if(artistInput) artistInput.addEventListener('keydown', e=>{ if(e.key==='Enter') confirm(); });
+}
+
+/* ======================= Confirm modal ======================= */
+function openConfirmModal({title, message, confirmLabel='ลบ', onConfirm}){
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `
+    <div class="overlay" id="ovConfirm">
+      <div class="modal modal-confirm">
+        <div class="modal-confirm-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 7h12l-1 13H7L6 7zm3-3h6l1 2H8l1-2z"/></svg>
+        </div>
+        <h3>${title}</h3>
+        <p class="modal-confirm-msg">${message}</p>
+        <div class="modal-actions">
+          <button class="btn" id="cancelConfirm">ยกเลิก</button>
+          <button class="btn btn-danger" id="confirmConfirm">${confirmLabel}</button>
+        </div>
+      </div>
+    </div>
+  `;
+  const close = ()=>root.innerHTML = '';
+  document.getElementById('ovConfirm').addEventListener('click', e=>{ if(e.target.id==='ovConfirm') close(); });
+  document.getElementById('cancelConfirm').addEventListener('click', close);
+  document.getElementById('confirmConfirm').addEventListener('click', ()=>{ close(); onConfirm(); });
+}
+
+/* ======================= Playlist track drag-to-reorder ======================= */
+function bindPlaylistTracklistDnD(playlistId){
+  const rows = Array.from(document.querySelectorAll('#detailTrackList li[data-track-row]'));
+  rows.forEach((li, idx)=>{
+    li.addEventListener('dragstart', (e)=>{
+      if(!e.target.closest('.drag-handle')){ e.preventDefault(); return; }
+      dragSrcIndex = idx;
+      li.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    li.addEventListener('dragend', ()=>{
+      li.classList.remove('dragging');
+      rows.forEach(r=>r.classList.remove('drag-over'));
+    });
+    li.addEventListener('dragover', (e)=>{
+      e.preventDefault();
+      if(dragSrcIndex!==null && dragSrcIndex!==idx) li.classList.add('drag-over');
+    });
+    li.addEventListener('dragleave', ()=>li.classList.remove('drag-over'));
+    li.addEventListener('drop', async (e)=>{
+      e.preventDefault();
+      li.classList.remove('drag-over');
+      if(dragSrcIndex===null || dragSrcIndex===idx) return;
+      const pl = playlists.find(p=>p.id===playlistId);
+      const moved = pl.trackIds.splice(dragSrcIndex, 1)[0];
+      pl.trackIds.splice(idx, 0, moved);
+      await dbPut('playlists', pl);
+      dragSrcIndex = null;
+      render();
+      showToast('จัดลำดับเพลงใหม่แล้ว');
+    });
+  });
+}
+
+/* ======================= Backup: export / import ======================= */
+function blobToBase64(blob){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=>resolve(reader.result);
+    reader.onerror = ()=>reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+async function dataUrlToBlob(dataUrl){
+  const res = await fetch(dataUrl);
+  return await res.blob();
+}
+async function exportBackup(){
+  const statusEl = document.getElementById('backupStatus');
+  if(!tracks.length && !playlists.length){
+    showToast('ยังไม่มีข้อมูลให้สำรอง');
+    return;
+  }
+  if(statusEl) statusEl.textContent = 'กำลังเตรียมไฟล์สำรอง...';
+  try{
+    const trackData = [];
+    for(const t of tracks){
+      const base64 = await blobToBase64(t.blob);
+      trackData.push({id:t.id, name:t.name, artist:t.artist||'', addedAt:t.addedAt, duration:t.duration, mime:(t.blob.type||'audio/mpeg'), data:base64});
+    }
+    const payload = {
+      app:'the-archive-backup', version:1, exportedAt:Date.now(),
+      tracks:trackData,
+      playlists:playlists.map(p=>({id:p.id, name:p.name, trackIds:p.trackIds, createdAt:p.createdAt}))
+    };
+    const blob = new Blob([JSON.stringify(payload)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `archive-backup-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    if(statusEl) statusEl.textContent = `สร้างไฟล์สำรองแล้ว (${tracks.length} เพลง, ${playlists.length} เพลย์ลิสต์)`;
+    showToast('ดาวน์โหลดไฟล์สำรองแล้ว');
+  }catch(err){
+    console.error(err);
+    if(statusEl) statusEl.textContent = 'สร้างไฟล์สำรองไม่สำเร็จ: ' + err.message;
+    showToast('สร้างไฟล์สำรองไม่สำเร็จ');
+  }
+}
+async function importBackupFile(file){
+  const statusEl = document.getElementById('backupStatus');
+  if(statusEl) statusEl.textContent = 'กำลังนำเข้าข้อมูล...';
+  try{
+    const text = await file.text();
+    const payload = JSON.parse(text);
+    if(!payload || !Array.isArray(payload.tracks)) throw new Error('รูปแบบไฟล์ไม่ถูกต้อง');
+    const idMap = {};
+    for(const td of payload.tracks){
+      const blob = await dataUrlToBlob(td.data);
+      const track = {name:td.name || 'ไม่มีชื่อ', artist:td.artist || '', blob, addedAt:td.addedAt || Date.now(), duration:td.duration || null};
+      const newId = await dbAdd('tracks', track);
+      track.id = newId;
+      tracks.push(track);
+      idMap[td.id] = newId;
+    }
+    for(const pd of (payload.playlists || [])){
+      const newTrackIds = (pd.trackIds || []).map(oid=>idMap[oid]).filter(x=>x!==undefined);
+      const pl = {name:pd.name || 'เพลย์ลิสต์นำเข้า', trackIds:newTrackIds, createdAt:pd.createdAt || Date.now()};
+      const newPlId = await dbAdd('playlists', pl);
+      pl.id = newPlId;
+      playlists.push(pl);
+    }
+    if(statusEl) statusEl.textContent = `นำเข้าสำเร็จ: ${payload.tracks.length} เพลง, ${(payload.playlists||[]).length} เพลย์ลิสต์`;
+    showToast('นำเข้าข้อมูลสำเร็จ');
+    render();
+  }catch(err){
+    console.error(err);
+    if(statusEl) statusEl.textContent = 'นำเข้าข้อมูลไม่สำเร็จ: ' + err.message;
+    showToast('นำเข้าข้อมูลไม่สำเร็จ');
+  }
+}
+
+/* ======================= Event binding ======================= */
+function bindViewEvents(){
+  // route links
+  document.querySelectorAll('[data-route-link]').forEach(el=>{
+    el.addEventListener('click', ()=>navigate(el.dataset.routeLink));
+  });
+  document.querySelectorAll('[data-open-playlist]').forEach(el=>{
+    el.addEventListener('click', ()=>navigate('playlist', {id:Number(el.dataset.openPlaylist)}));
+  });
+
+  // All songs
+  bindSongsListEvents();
+  const songSearchInput = document.getElementById('songSearch');
+  if(songSearchInput){
+    songSearchInput.addEventListener('input', (e)=>{
+      songSearchQuery = e.target.value;
+      document.getElementById('songsListWrap').innerHTML = renderSongsListHTML();
+      bindSongsListEvents();
+      renderTrackListsHighlight();
+    });
+  }
+
+  // Rename playlists, works from any view (home cards + playlist detail title)
+  document.querySelectorAll('[data-rename-playlist]').forEach(el=>{
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); openRenameModal('playlist', Number(el.dataset.renamePlaylist)); });
+  });
+
+  // Delete playlists, works from any view (home cards + playlist detail title)
+  document.querySelectorAll('[data-delete-playlist]').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const id = Number(el.dataset.deletePlaylist);
+      const pl = playlists.find(p=>p.id===id);
+      if(!pl) return;
+      openConfirmModal({
+        title:'ลบเพลย์ลิสต์นี้?',
+        message:`"${escapeHtml(pl.name)}" จะถูกลบออกไป — เพลงในคลังจะยังอยู่เหมือนเดิม ไม่ถูกลบ`,
+        confirmLabel:'ลบเพลย์ลิสต์',
+        onConfirm: async ()=>{
+          await dbDelete('playlists', id);
+          playlists = playlists.filter(p=>p.id!==id);
+          if(queueContext && queueContext.type==='playlist' && queueContext.id===id){
+            audio.pause(); currentIndex=-1; queue=[]; queueContext=null;
+          }
+          showToast('ลบเพลย์ลิสต์แล้ว');
+          if(route.name==='playlist' && route.params.id===id) navigate('home');
+          else render();
+        }
+      });
+    });
+  });
+
+  // Shuffle / repeat toggles
+  const shuffleBtn = document.getElementById('shuffleBtn');
+  const repeatBtn = document.getElementById('repeatBtn');
+  if(shuffleBtn) shuffleBtn.addEventListener('click', toggleShuffle);
+  if(repeatBtn) repeatBtn.addEventListener('click', cycleRepeat);
+
+  // Playlist detail: track rename + drag reorder
+  if(route.name==='playlist'){
+    document.querySelectorAll('#detailTrackList [data-rename-track]').forEach(el=>{
+      el.addEventListener('click', (e)=>{ e.stopPropagation(); openRenameModal('track', Number(el.dataset.renameTrack)); });
+    });
+    bindPlaylistTracklistDnD(route.params.id);
+  }
+
+  // Backup export / import
+  const exportBtn = document.getElementById('exportBtn');
+  const importBtn = document.getElementById('importBtn');
+  const importFileInput = document.getElementById('importFileInput');
+  if(exportBtn) exportBtn.addEventListener('click', exportBackup);
+  if(importBtn && importFileInput){
+    importBtn.addEventListener('click', ()=>importFileInput.click());
+    importFileInput.addEventListener('change', (e)=>{
+      const file = e.target.files[0];
+      if(file) importBackupFile(file);
+      importFileInput.value = '';
+    });
+  }
+
+  // Upload — local files
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  if(dropzone){
+    dropzone.addEventListener('click', ()=>fileInput.click());
+    ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,(e)=>{e.preventDefault();dropzone.classList.add('drag');}));
+    ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,(e)=>{e.preventDefault();dropzone.classList.remove('drag');}));
+    dropzone.addEventListener('drop', (e)=>handleFiles(Array.from(e.dataTransfer.files)));
+    fileInput.addEventListener('change', (e)=>handleFiles(Array.from(e.target.files)).then(()=>fileInput.value=''));
+  }
+
+  // Upload — TikTok URL
+  const tiktokFetchBtn = document.getElementById('tiktokFetchBtn');
+  const tiktokUrlInput = document.getElementById('tiktokUrlInput');
+  if(tiktokFetchBtn){
+    tiktokFetchBtn.addEventListener('click', handleTiktokFetch);
+    tiktokUrlInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') handleTiktokFetch(); });
+  }
+  const tiktokAddBtn = document.getElementById('tiktokAddBtn');
+  if(tiktokAddBtn) tiktokAddBtn.addEventListener('click', handleTiktokAdd);
+
+  // Create playlist
+  const saveBtn = document.getElementById('saveNewPlaylist');
+  if(saveBtn){
+    saveBtn.addEventListener('click', async ()=>{
+      const nameInput = document.getElementById('newPlaylistName');
+      const name = nameInput.value.trim() || 'เพลย์ลิสต์ไม่มีชื่อ';
+      const checked = Array.from(document.querySelectorAll('#view .check-row input:checked')).map(i=>Number(i.value));
+      const pl = {name, trackIds:checked, createdAt:Date.now()};
+      const id = await dbAdd('playlists', pl);
+      pl.id = id;
+      playlists.push(pl);
+      showToast('สร้างเพลย์ลิสต์แล้ว');
+      navigate('playlist', {id});
+    });
+  }
+
+  // Playlist detail
+  document.querySelectorAll('[data-play-playlist]').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      if(e.target.closest('.row-actions')) return;
+      const pl = playlists.find(p=>p.id===route.params.id);
+      const plTracks = pl.trackIds.map(tid=>tracks.find(t=>t.id===tid)).filter(Boolean);
+      playQueue(plTracks, Number(el.dataset.playPlaylist), {type:'playlist', id:pl.id, name:pl.name});
+    });
+  });
+  document.querySelectorAll('[data-remove-from-playlist]').forEach(el=>{
+    el.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      const pl = playlists.find(p=>p.id===route.params.id);
+      const tid = Number(el.dataset.removeFromPlaylist);
+      pl.trackIds = pl.trackIds.filter(id=>id!==tid);
+      await dbPut('playlists', pl);
+      showToast('นำเพลงออกแล้ว');
+      render();
+    });
+  });
+  const addTracksBtn = document.getElementById('addTracksBtn');
+  if(addTracksBtn) addTracksBtn.addEventListener('click', ()=>openAddTracksToPlaylistModal(route.params.id));
+
+  // Cassette player controls
+  const playBtn = document.getElementById('playBtn');
+  if(playBtn){
+    playBtn.addEventListener('click', ()=>{
+      if(currentIndex===-1){
+        if(route.name==='playlist'){
+          const pl = playlists.find(p=>p.id===route.params.id);
+          const plTracks = pl.trackIds.map(tid=>tracks.find(t=>t.id===tid)).filter(Boolean);
+          if(plTracks.length) playQueue(plTracks, 0, {type:'playlist', id:pl.id, name:pl.name});
+        }else if(route.name==='songs'){
+          if(visibleSongs.length) playQueue(visibleSongs.slice(), 0, {type:'all', name: songSearchQuery ? 'ผลการค้นหา' : 'เพลงทั้งหมด'});
+        }
+        return;
+      }
+      togglePlay();
+    });
+    document.getElementById('prevBtn').addEventListener('click', ()=>skip(-1));
+    document.getElementById('nextBtn').addEventListener('click', ()=>skip(1));
+    document.getElementById('backBtn').addEventListener('click', ()=>seekBy(-10));
+    document.getElementById('fwdBtn').addEventListener('click', ()=>seekBy(10));
+    document.getElementById('seek').addEventListener('input', (e)=>{
+      if(!isFinite(audio.duration)) return;
+      audio.currentTime = (e.target.value/100)*audio.duration;
+    });
+    document.getElementById('volume').addEventListener('input', (e)=>{ audio.volume = Number(e.target.value); });
+    setPlayingUI(!audio.paused && currentIndex>-1);
+    updateTimeUI();
+  }
+}
+
+async function handleFiles(files){
   if(!files.length) return;
+  const added = [];
   for(const file of files){
-    const track = { name: file.name.replace(/\.[^/.]+$/, ''), blob: file, addedAt: Date.now(), duration:null };
-    const id = await addTrack(track);
+    if(!file.type.startsWith('audio/')) continue;
+    const track = {name:file.name.replace(/\.[^/.]+$/,''), artist:'', blob:file, addedAt:Date.now(), duration:null};
+    const id = await dbAdd('tracks', track);
     track.id = id;
     tracks.push(track);
+    added.push(track);
   }
-  renderList();
-  showToast(files.length > 1 ? `เพิ่ม ${files.length} เพลงแล้ว` : 'เพิ่มเพลงแล้ว');
-  fileInput.value = '';
+  if(added.length){
+    showToast(added.length>1 ? `เพิ่ม ${added.length} เพลงแล้ว` : 'เพิ่มเพลงแล้ว');
+    prependRecentAdds(added);
+  }
+}
+
+function prependRecentAdds(added){
+  const box = document.getElementById('recentAdds');
+  const list = document.getElementById('recentAddsList');
+  if(box && list){
+    box.style.display = 'block';
+    list.innerHTML = added.map(t=>`
+      <li class="song-row"><span class="song-num">♪</span><div class="song-info"><div class="song-name">${escapeHtml(t.name)}</div></div></li>
+    `).join('') + list.innerHTML;
+  }
+}
+
+/* ---- TikTok fetch/add handlers ---- */
+async function handleTiktokFetch(){
+  const input = document.getElementById('tiktokUrlInput');
+  const statusEl = document.getElementById('tiktokStatus');
+  const previewEl = document.getElementById('tiktokPreview');
+  const fetchBtn = document.getElementById('tiktokFetchBtn');
+  const url = input.value.trim();
+
+  statusEl.classList.remove('error');
+  previewEl.style.display = 'none';
+  tiktokFetchedData = null;
+
+  if(!url){
+    statusEl.textContent = 'กรุณาวางลิงก์ TikTok ก่อน';
+    statusEl.classList.add('error');
+    return;
+  }
+  if(!/tiktok\.com/i.test(url)){
+    statusEl.textContent = 'ลิงก์นี้ดูไม่ใช่ลิงก์ TikTok — ตรวจสอบอีกครั้ง';
+    statusEl.classList.add('error');
+    return;
+  }
+
+  fetchBtn.disabled = true;
+  statusEl.textContent = 'กำลังดึงข้อมูล...';
+
+  try{
+    const data = await tiktokFetchInfo(url);
+    tiktokFetchedData = data;
+    document.getElementById('tiktokThumb').src = data.cover || data.origin_cover || '';
+    document.getElementById('tiktokTitle').textContent = (data.title || 'ไม่มีชื่อ').slice(0,140);
+    document.getElementById('tiktokAuthor').textContent = data.author ? '@'+data.author.unique_id : '';
+    previewEl.style.display = 'flex';
+    statusEl.textContent = 'ดึงข้อมูลสำเร็จ — กดเพิ่มเสียงเข้าคลังได้เลย';
+  }catch(err){
+    console.error(err);
+    statusEl.textContent = 'เกิดข้อผิดพลาด: ' + err.message;
+    statusEl.classList.add('error');
+  }finally{
+    fetchBtn.disabled = false;
+  }
+}
+
+async function handleTiktokAdd(){
+  if(!tiktokFetchedData) return;
+  const statusEl = document.getElementById('tiktokStatus');
+  const addBtn = document.getElementById('tiktokAddBtn');
+  const data = tiktokFetchedData;
+
+  // ใช้เสียงล้วน (music) ถ้ามี ไม่งั้น fallback เป็นวิดีโอ (ไม่มีลายน้ำ)
+  const audioUrl = data.hdplay || data.play || data.music;
+  if(!audioUrl){
+    statusEl.textContent = 'ไม่พบไฟล์เสียงจากลิงก์นี้';
+    statusEl.classList.add('error');
+    return;
+  }
+
+  addBtn.disabled = true;
+  statusEl.classList.remove('error');
+  statusEl.textContent = 'กำลังดาวน์โหลดเสียง...';
+
+  try{
+    const blob = await urlToBlob(audioUrl);
+    const name = (data.title && data.title.trim())
+      ? data.title.trim().slice(0,80)
+      : (data.author ? '@'+data.author.unique_id : 'TikTok Audio') + ' ' + Date.now();
+    const artist = data.author && data.author.unique_id ? '@'+data.author.unique_id : (data.author && data.author.nickname ? data.author.nickname : '');
+    const track = {name, artist, blob, addedAt:Date.now(), duration:null};
+    const id = await dbAdd('tracks', track);
+    track.id = id;
+    tracks.push(track);
+
+    showToast('เพิ่มเสียงจาก TikTok เข้าคลังแล้ว');
+    prependRecentAdds([track]);
+    statusEl.textContent = 'เพิ่มเข้าคลังแล้ว: ' + name;
+
+    document.getElementById('tiktokPreview').style.display = 'none';
+    document.getElementById('tiktokUrlInput').value = '';
+    tiktokFetchedData = null;
+  }catch(err){
+    console.error(err);
+    statusEl.textContent = 'เกิดข้อผิดพลาดระหว่างดาวน์โหลด: ' + err.message;
+    statusEl.classList.add('error');
+  }finally{
+    addBtn.disabled = false;
+  }
+}
+
+/* ======================= Nav wiring ======================= */
+document.querySelectorAll('.nav-item').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const r = el.dataset.route;
+    navigate(r === 'songs' ? 'songs' : r);
+  });
 });
 
-// ---------- Init ----------
+/* ======================= Init ======================= */
 (async function init(){
   db = await openDB();
-  tracks = await getAllTracks();
-  renderList();
-  if(tracks.length){
-    trackTitleEl.textContent = 'เลือกเพลงจากเพลย์ลิสต์';
-    trackSubEl.textContent = tracks.length + ' เพลงพร้อมเล่น';
-  }
-  volumeEl.value = 1;
-
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
-  }
+  tracks = await dbGetAll('tracks','addedAt');
+  playlists = await dbGetAll('playlists','createdAt');
+  render();
 })();
 </script>
 </body>
