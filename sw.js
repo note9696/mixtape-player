@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mixtape-v1';
+const CACHE_NAME = 'mixtape-v18';
 const ASSETS = [
   './',
   './index.html',
